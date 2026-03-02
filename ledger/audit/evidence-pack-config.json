@@ -1,0 +1,35 @@
+{
+  "$schema": "../core/schemas/evidence-pack-manifest.schema.json",
+  "schema_version": "1.0.0",
+  "description": "Evidence Pack exclusion rules. Changes to this file require a PR with dual approval.",
+  "exclude_patterns": [
+    "*.tmp",
+    "*.temp",
+    "**/draft-*",
+    "**/.DS_Store",
+    "**/.gitkeep"
+  ],
+  "exclude_paths": [],
+  "rules": [
+    {
+      "pattern": "*.tmp",
+      "reason": "Temporary files are not audit evidence"
+    },
+    {
+      "pattern": "*.temp",
+      "reason": "Temporary files are not audit evidence"
+    },
+    {
+      "pattern": "**/draft-*",
+      "reason": "Draft documents are excluded until finalized"
+    },
+    {
+      "pattern": "**/.DS_Store",
+      "reason": "OS metadata files are not relevant"
+    },
+    {
+      "pattern": "**/.gitkeep",
+      "reason": "Placeholder files are not audit evidence"
+    }
+  ]
+}
