@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/findings-log.schema.json",
+  "title": "Findings Log",
+  "description": "Schema for audit findings discovered during control testing. Tracks severity, remediation status, and management response.",
+  "type": "object",
+  "required": ["schema_version", "findings"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "description": "Array of audit findings"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Finding": {
+      "type": "object",
+      "required": [
+        "finding_id",
+        "control_id",
+        "case_id",
+        "severity",
+        "status",
+        "description",
+        "detection_method",
+        "control_effectiveness_impact",
+        "auditor_notified",
+        "management_response_text"
+      ],
+      "properties": {
+        "finding_id": {
+          "type": "string",
+          "pattern": "^FIND-\\d{4,}$",
+          "description": "Unique finding identifier"
+        },
+        "control_id": {
+          "type": "string",
+          "pattern": "^(AC|CM|PI|CF|IR|MN)-\\d{3}$",
+          "description": "Control where the finding was identified"
+        },
+        "case_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Engagement case ID this finding belongs to"
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["Control Deficiency", "Significant", "Material"],
+          "description": "Severity classification of the finding"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Open", "In Remediation", "Closed", "Accepted"],
+          "description": "Current status of the finding"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Detailed description of the finding"
+        },
+        "detection_method": {
+          "type": "string",
+          "minLength": 1,
+          "description": "How the finding was detected (e.g., sample testing, walkthrough, automated monitoring)"
+        },
+        "control_effectiveness_impact": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of how this finding impacts the effectiveness of the related control"
+        },
+        "auditor_notified": {
+          "type": "boolean",
+          "description": "Whether the external auditor has been notified of this finding"
+        },
+        "management_response_text": {
+          "type": "string",
+          "description": "Management's response and remediation plan"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

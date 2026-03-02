@@ -1,0 +1,274 @@
+{
+  "schema_version": "1.0.0",
+  "document_id": "QMS-PM-001",
+  "title": "Assurance Ledger Platform — SIPOC Process Map",
+  "last_reviewed_at": "2025-01-01T00:00:00Z",
+  "approved_by": null,
+  "core_processes": [
+    {
+      "process_id": "CP-01",
+      "name": "Engagement Acceptance & Planning",
+      "description": "Evaluate prospective engagements, assess risk, and establish case in the ledger",
+      "suppliers": ["Client", "Engagement Partner"],
+      "inputs": [
+        "Client inquiry / engagement request",
+        "Engagement letter (signed)",
+        "Client risk profile"
+      ],
+      "activities": [
+        "Evaluate client acceptance criteria",
+        "Perform independence check",
+        "Create case in ledger (CASE_CREATED event)",
+        "Assign team and roles",
+        "Upload engagement letter to artifacts"
+      ],
+      "outputs": [
+        "Ledger case record (hash-chained)",
+        "Signed engagement letter (artifact)",
+        "Role assignment record"
+      ],
+      "customers": ["Engagement Team", "Quality Manager"],
+      "control_points": [
+        {
+          "description": "Only authorized users can create cases",
+          "linked_controls": ["AC-001", "AC-002"]
+        },
+        {
+          "description": "Case creation event is hash-chained and immutable",
+          "linked_controls": ["PI-001", "PI-002"]
+        },
+        {
+          "description": "Independence attestation required before acceptance",
+          "linked_controls": ["MN-005"]
+        }
+      ]
+    },
+    {
+      "process_id": "CP-02",
+      "name": "Evidence Collection & Control Testing",
+      "description": "Collect evidence artifacts, execute sampling plan, and test control operating effectiveness",
+      "suppliers": ["System (automated)", "Engagement Team", "Client"],
+      "inputs": [
+        "Control inventory",
+        "Sampling matrix (risk-tier based)",
+        "Population data for the audit period",
+        "System-generated evidence (logs, hashes, CI artifacts)"
+      ],
+      "activities": [
+        "Generate sample selection (fixed-seed PRNG)",
+        "Collect evidence for each sampled item",
+        "Execute control tests (pass/fail/deviation)",
+        "Re-perform hash chain verification (PI controls)",
+        "Record deviations in findings log",
+        "Upload supporting documents"
+      ],
+      "outputs": [
+        "Sample selection CSV (with metadata headers)",
+        "Test results per control",
+        "Findings log entries",
+        "Deviation records (if any)"
+      ],
+      "customers": ["Quality Manager", "Engagement Partner"],
+      "control_points": [
+        {
+          "description": "Sample selection uses documented seed for reproducibility",
+          "linked_controls": ["PI-003"]
+        },
+        {
+          "description": "All evidence uploads recorded in hash-chained ledger",
+          "linked_controls": ["PI-001", "PI-002"]
+        },
+        {
+          "description": "Deviations trigger findings workflow",
+          "linked_controls": ["MN-001", "MN-002"]
+        }
+      ]
+    },
+    {
+      "process_id": "CP-03",
+      "name": "Report Preparation & Quality Review",
+      "description": "Compile evidence pack, perform quality review, and prepare the audit report for delivery",
+      "suppliers": ["Engagement Team", "Quality Manager"],
+      "inputs": [
+        "Completed test results",
+        "Findings log",
+        "Evidence artifacts",
+        "Control framework mapping"
+      ],
+      "activities": [
+        "Generate deterministic evidence pack (ZIP)",
+        "Compute pack hash (SHA256)",
+        "Quality Manager reviews and signs attestation",
+        "Engagement Partner reviews report",
+        "Record APPROVAL_GRANTED event in ledger"
+      ],
+      "outputs": [
+        "Evidence pack (manifest.json + ZIP + sha256.txt + signer-attestation.md)",
+        "Signed quality attestation",
+        "Approval event in ledger"
+      ],
+      "customers": ["Engagement Partner", "Client"],
+      "control_points": [
+        {
+          "description": "Evidence pack is deterministic (same input = same hash)",
+          "linked_controls": ["PI-004"]
+        },
+        {
+          "description": "Only Quality Manager can sign attestation",
+          "linked_controls": ["AC-003", "AC-004"]
+        },
+        {
+          "description": "Dual approval required before delivery",
+          "linked_controls": ["CM-003"]
+        }
+      ]
+    },
+    {
+      "process_id": "CP-04",
+      "name": "Report Delivery & Case Closure",
+      "description": "Deliver the final report to the client and archive the engagement",
+      "suppliers": ["Engagement Partner"],
+      "inputs": [
+        "Approved evidence pack",
+        "Signed report",
+        "Client delivery preferences"
+      ],
+      "activities": [
+        "Deliver report to client via secure channel",
+        "Record DELIVERED event in ledger",
+        "Client acknowledges receipt",
+        "Archive case (status → Archived)",
+        "Generate bridge letter if applicable"
+      ],
+      "outputs": [
+        "Delivered report",
+        "Delivery confirmation (ledger event)",
+        "Archived case record",
+        "Bridge letter (if needed)"
+      ],
+      "customers": ["Client"],
+      "control_points": [
+        {
+          "description": "Delivery event is hash-chained and timestamped",
+          "linked_controls": ["PI-001", "PI-005"]
+        },
+        {
+          "description": "Only authorized roles can mark case as delivered",
+          "linked_controls": ["AC-003"]
+        }
+      ]
+    }
+  ],
+  "support_processes": [
+    {
+      "process_id": "SP-01",
+      "name": "Access Control & User Management",
+      "description": "Manage user identities, roles, and permissions across the platform",
+      "activities": [
+        "User registration and authentication (Google/LINE OAuth)",
+        "Role assignment (6 defined roles)",
+        "Periodic access review",
+        "Deprovisioning on role change"
+      ],
+      "linked_controls": ["AC-001", "AC-002", "AC-003", "AC-004", "AC-005"],
+      "supports_processes": ["CP-01", "CP-02", "CP-03", "CP-04"]
+    },
+    {
+      "process_id": "SP-02",
+      "name": "Change Management",
+      "description": "Control changes to system code, schemas, and configuration",
+      "activities": [
+        "Change request via GitHub Issue",
+        "Code review and dual approval via PR",
+        "GPG-signed commits required",
+        "CI/CD pipeline validation",
+        "Schema version governance (backward compatible)"
+      ],
+      "linked_controls": ["CM-001", "CM-002", "CM-003", "CM-004", "CM-005"],
+      "supports_processes": ["CP-01", "CP-02", "CP-03", "CP-04"]
+    },
+    {
+      "process_id": "SP-03",
+      "name": "Configuration Management",
+      "description": "Maintain system configuration integrity and reproducibility",
+      "activities": [
+        "Infrastructure as code (PM2 + Nginx Proxy Manager)",
+        "Environment variable management",
+        "Database migration versioning",
+        "Dependency lock file maintenance"
+      ],
+      "linked_controls": ["CF-001", "CF-002", "CF-003", "CF-004", "CF-005"],
+      "supports_processes": ["CP-01", "CP-02", "CP-03", "CP-04"]
+    },
+    {
+      "process_id": "SP-04",
+      "name": "Incident Response",
+      "description": "Detect, respond to, and resolve operational incidents",
+      "activities": [
+        "Incident detection (automated monitoring + manual report)",
+        "Triage and severity classification (P1-P4)",
+        "Root cause analysis",
+        "Remediation and fix deployment",
+        "Post-incident review and findings entry"
+      ],
+      "linked_controls": ["IR-001", "IR-002", "IR-003", "IR-004", "IR-005"],
+      "supports_processes": ["CP-01", "CP-02", "CP-03", "CP-04"]
+    },
+    {
+      "process_id": "SP-05",
+      "name": "Monitoring & Continuous Improvement",
+      "description": "Monitor system health, KRIs, and drive quality improvement",
+      "activities": [
+        "Daily hash chain verification",
+        "KRI threshold monitoring",
+        "Quarterly management review",
+        "Annual subservice organization review",
+        "Complaint register management",
+        "Corrective action tracking"
+      ],
+      "linked_controls": ["MN-001", "MN-002", "MN-003", "MN-004", "MN-005"],
+      "supports_processes": ["CP-01", "CP-02", "CP-03", "CP-04"]
+    },
+    {
+      "process_id": "SP-06",
+      "name": "Document & Record Control",
+      "description": "Manage the lifecycle of policies, SOPs, and quality records",
+      "activities": [
+        "Document creation and approval workflow",
+        "Version control and supersession tracking",
+        "Distribution and notification",
+        "Retention and archival (7-year minimum)",
+        "Document index maintenance"
+      ],
+      "linked_controls": ["CM-003", "MN-004"],
+      "supports_processes": ["CP-01", "CP-02", "CP-03", "CP-04"]
+    }
+  ],
+  "process_interactions": [
+    {
+      "from": "CP-01",
+      "to": "CP-02",
+      "handoff": "Accepted case with assigned team triggers evidence collection phase"
+    },
+    {
+      "from": "CP-02",
+      "to": "CP-03",
+      "handoff": "Completed control testing triggers report preparation"
+    },
+    {
+      "from": "CP-03",
+      "to": "CP-04",
+      "handoff": "Approved evidence pack triggers delivery"
+    },
+    {
+      "from": "CP-02",
+      "to": "SP-04",
+      "handoff": "Deviations detected during testing may trigger incident response"
+    },
+    {
+      "from": "SP-05",
+      "to": "CP-02",
+      "handoff": "KRI breach or hash verification failure triggers re-testing"
+    }
+  ]
+}

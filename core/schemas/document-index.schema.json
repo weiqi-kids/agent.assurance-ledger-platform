@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/document-index.schema.json",
+  "title": "Document Index",
+  "description": "Schema for the QMS document index. Tracks all policies, SOPs, work instructions, and forms with their version lifecycle and distribution.",
+  "type": "object",
+  "required": ["schema_version", "documents"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Document"
+      },
+      "description": "Array of document entries"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Document": {
+      "type": "object",
+      "required": [
+        "document_id",
+        "title",
+        "document_type",
+        "version",
+        "status",
+        "supersedes_document_id",
+        "distribution_list_reference",
+        "notification_evidence_path",
+        "archival_location"
+      ],
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "pattern": "^DOC-\\d{4,}$",
+          "description": "Unique document identifier"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Document title"
+        },
+        "document_type": {
+          "type": "string",
+          "enum": ["Policy", "SOP", "Work Instruction", "Form"],
+          "description": "Classification of the document"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Semantic version of the document"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Draft", "In Review", "Approved", "Superseded", "Archived"],
+          "description": "Current lifecycle status of the document"
+        },
+        "supersedes_document_id": {
+          "type": ["string", "null"],
+          "description": "Document ID that this document supersedes, or null if it is the first version"
+        },
+        "distribution_list_reference": {
+          "type": "string",
+          "description": "Reference to the distribution list for this document"
+        },
+        "notification_evidence_path": {
+          "type": "string",
+          "description": "Path to the evidence of distribution notification"
+        },
+        "archival_location": {
+          "type": "string",
+          "description": "Path or reference to where archived versions are stored"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

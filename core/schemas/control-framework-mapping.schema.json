@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/control-framework-mapping.schema.json",
+  "title": "Control-Framework Mapping",
+  "description": "Maps each control to SOC1 Type II objectives, ISQM1 paragraphs, and ISO 9001 clauses. Used for cross-framework audit readiness.",
+  "type": "object",
+  "required": ["schema_version", "mappings"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "mappings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/FrameworkMapping"
+      },
+      "minItems": 1,
+      "description": "Array of control-to-framework mappings"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "FrameworkMapping": {
+      "type": "object",
+      "required": [
+        "control_id",
+        "soc1_objective",
+        "isqm1_paragraph",
+        "iso9001_clause",
+        "explanation_reference"
+      ],
+      "properties": {
+        "control_id": {
+          "type": "string",
+          "pattern": "^(AC|CM|PI|CF|IR|MN)-\\d{3}$",
+          "description": "Reference to a control in the control inventory"
+        },
+        "soc1_objective": {
+          "type": "string",
+          "description": "SOC1 Type II control objective this control satisfies"
+        },
+        "isqm1_paragraph": {
+          "type": "string",
+          "description": "ISQM1 paragraph reference (e.g., ISQM1.32(a))"
+        },
+        "iso9001_clause": {
+          "type": "string",
+          "description": "ISO 9001:2015 clause reference (e.g., 8.5.1)"
+        },
+        "explanation_reference": {
+          "type": "string",
+          "description": "Reference to the detailed explanation document or section"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

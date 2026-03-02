@@ -1,0 +1,90 @@
+name: Audit Finding
+description: Report an audit finding against a specific control
+labels: ["finding", "audit"]
+body:
+  - type: input
+    id: finding_id
+    attributes:
+      label: Finding ID
+      description: Unique identifier for this finding (e.g., FND-2026-001)
+      placeholder: "FND-YYYY-NNN"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: control_id
+    attributes:
+      label: Control ID
+      description: The control this finding relates to
+      options:
+        - AC-001
+        - AC-002
+        - AC-003
+        - AC-004
+        - AC-005
+        - CM-001
+        - CM-002
+        - CM-003
+        - CM-004
+        - CM-005
+        - PI-001
+        - PI-002
+        - PI-003
+        - PI-004
+        - PI-005
+        - CF-001
+        - CF-002
+        - CF-003
+        - CF-004
+        - CF-005
+        - IR-001
+        - IR-002
+        - IR-003
+        - IR-004
+        - IR-005
+        - MN-001
+        - MN-002
+        - MN-003
+        - MN-004
+        - MN-005
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Severity
+      description: Control effectiveness impact level
+      options:
+        - Control Deficiency
+        - Significant
+        - Material
+    validations:
+      required: true
+
+  - type: input
+    id: detection_method
+    attributes:
+      label: Detection Method
+      description: How was this finding detected (e.g., sampling test, walkthrough, re-performance)
+      placeholder: "e.g., Quarterly sampling test Q1-2026"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the finding, including evidence references
+      placeholder: "Describe the finding, affected population, and supporting evidence..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: management_response
+    attributes:
+      label: Management Response
+      description: Management's response, remediation plan, and target date
+      placeholder: "Describe the remediation plan and expected completion date..."
+    validations:
+      required: false

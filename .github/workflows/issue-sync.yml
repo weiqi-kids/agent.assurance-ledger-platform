@@ -1,0 +1,15 @@
+name: Issue Sync
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled]
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log issue event
+        run: |
+          echo "Issue #${{ github.event.issue.number }} ${{ github.event.action }}"
+          echo "Title: ${{ github.event.issue.title }}"
+          echo "Labels: ${{ join(github.event.issue.labels.*.name, ', ') }}"

@@ -1,0 +1,155 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/process-map.schema.json",
+  "title": "Process Map",
+  "description": "Schema for the QMS process map stored in ledger/qms/process-map.json. Defines core processes, support processes, and their interactions.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "core_processes",
+    "support_processes",
+    "process_interactions"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "core_processes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Process"
+      },
+      "minItems": 1,
+      "description": "Core business processes that deliver value to clients"
+    },
+    "support_processes": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Process"
+      },
+      "minItems": 1,
+      "description": "Support processes that enable core processes"
+    },
+    "process_interactions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ProcessInteraction"
+      },
+      "description": "Defines how processes interact with each other (inputs/outputs)"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Process": {
+      "type": "object",
+      "required": [
+        "process_id",
+        "name",
+        "description",
+        "owner_role",
+        "inputs",
+        "outputs",
+        "linked_controls",
+        "kpis"
+      ],
+      "properties": {
+        "process_id": {
+          "type": "string",
+          "pattern": "^PROC-\\d{3}$",
+          "description": "Unique process identifier"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Process name"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of the process scope and purpose"
+        },
+        "owner_role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Role responsible for this process"
+        },
+        "inputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Inputs required by this process"
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Outputs produced by this process"
+        },
+        "linked_controls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(AC|CM|PI|CF|IR|MN)-\\d{3}$"
+          },
+          "description": "Controls associated with this process"
+        },
+        "kpis": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/KPI"
+          },
+          "description": "Key Performance Indicators for this process"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ProcessInteraction": {
+      "type": "object",
+      "required": ["from_process_id", "to_process_id", "interface_description"],
+      "properties": {
+        "from_process_id": {
+          "type": "string",
+          "pattern": "^PROC-\\d{3}$",
+          "description": "Source process"
+        },
+        "to_process_id": {
+          "type": "string",
+          "pattern": "^PROC-\\d{3}$",
+          "description": "Target process"
+        },
+        "interface_description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of what is exchanged between the processes"
+        }
+      },
+      "additionalProperties": false
+    },
+    "KPI": {
+      "type": "object",
+      "required": ["name", "target", "measurement_frequency"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "KPI name"
+        },
+        "target": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target value or threshold"
+        },
+        "measurement_frequency": {
+          "type": "string",
+          "enum": ["Daily", "Weekly", "Monthly", "Quarterly", "Annual"],
+          "description": "How often this KPI is measured"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

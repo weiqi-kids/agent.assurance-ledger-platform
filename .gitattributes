@@ -1,0 +1,23 @@
+# Enforce LF line endings
+* text=auto eol=lf
+
+# Binary files
+*.pdf binary
+*.zip binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+
+# Ensure JSON files are treated as text
+*.json text eol=lf
+*.jsonl text eol=lf
+*.csv text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/case-ledger-event.schema.json",
+  "title": "Case Ledger Event",
+  "description": "Schema for individual events in the append-only case ledger. Each event is hash-chained to its predecessor, forming an immutable audit trail.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "event_type",
+    "timestamp",
+    "actor",
+    "event_hash",
+    "prev_hash",
+    "event_schema_version",
+    "payload"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "CASE_CREATED",
+        "CASE_UPDATED",
+        "CASE_STATUS_CHANGED",
+        "CASE_CLOSED",
+        "EVIDENCE_UPLOADED",
+        "EVIDENCE_VERIFIED",
+        "CONTROL_TEST_STARTED",
+        "CONTROL_TEST_COMPLETED",
+        "SAMPLE_SELECTED",
+        "SAMPLE_TESTED",
+        "FINDING_CREATED",
+        "FINDING_UPDATED",
+        "FINDING_CLOSED",
+        "APPROVAL_REQUESTED",
+        "APPROVAL_GRANTED",
+        "APPROVAL_REJECTED",
+        "EVIDENCE_PACK_GENERATED",
+        "EVIDENCE_PACK_SIGNED",
+        "COMMENT_ADDED",
+        "ASSIGNMENT_CHANGED",
+        "PROJECTION_UPDATE_FAILED"
+      ],
+      "description": "Type of the ledger event"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the event occurred"
+    },
+    "actor": {
+      "type": "string",
+      "minLength": 1,
+      "description": "User ID or system identifier that triggered the event"
+    },
+    "event_hash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "SHA-256 hash of this event's content (excluding event_hash itself)"
+    },
+    "prev_hash": {
+      "type": "string",
+      "pattern": "^(sha256:[a-f0-9]{64}|GENESIS)$",
+      "description": "SHA-256 hash of the previous event, or GENESIS for the first event in a chain"
+    },
+    "event_schema_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Version of the event schema used to produce this event"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Event-specific data payload. Structure varies by event_type."
+    }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,32 @@
+name: Hash Chain Verification
+
+on:
+  schedule:
+    - cron: '0 6 * * *' # Daily at 06:00 UTC
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: core/web/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+        working-directory: core/web
+
+      - name: Verify Hash Chains
+        run: npx tsx core/scripts/verify-chains.ts
+        working-directory: core/web
+        env:
+          DATABASE_URL: file:./dev.db
+          DB_DRIVER: sqlite

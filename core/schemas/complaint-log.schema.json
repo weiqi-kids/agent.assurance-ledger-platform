@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/complaint-log.schema.json",
+  "title": "Complaint Log",
+  "description": "Schema for the client complaint log. Tracks complaints from receipt through resolution as required by ISQM1 and ISO 9001.",
+  "type": "object",
+  "required": ["schema_version", "complaints"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "complaints": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Complaint"
+      },
+      "description": "Array of complaint entries"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Complaint": {
+      "type": "object",
+      "required": [
+        "complaint_id",
+        "client_name",
+        "description",
+        "status",
+        "resolution",
+        "created_at",
+        "resolved_at"
+      ],
+      "properties": {
+        "complaint_id": {
+          "type": "string",
+          "pattern": "^COMP-\\d{4,}$",
+          "description": "Unique complaint identifier"
+        },
+        "client_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Name of the client who raised the complaint"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Detailed description of the complaint"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["Open", "Under Investigation", "Resolved", "Closed"],
+          "description": "Current status of the complaint"
+        },
+        "resolution": {
+          "type": ["string", "null"],
+          "description": "Description of the resolution, or null if not yet resolved"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the complaint was received"
+        },
+        "resolved_at": {
+          "type": ["string", "null"],
+          "format": "date-time",
+          "description": "ISO 8601 timestamp when the complaint was resolved, or null if not yet resolved"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

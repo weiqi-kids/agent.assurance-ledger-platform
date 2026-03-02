@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/control-inventory.schema.json",
+  "title": "Control Inventory",
+  "description": "Schema for the 30-control inventory covering AC, CM, PI, CF, IR, MN domains. Each control defines its statement, ownership, evidence requirements, risk linkage, and sampling parameters.",
+  "type": "object",
+  "required": ["schema_version", "controls"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "controls": {
+      "type": "array",
+      "minItems": 30,
+      "maxItems": 30,
+      "items": {
+        "$ref": "#/$defs/Control"
+      },
+      "description": "Exactly 30 controls required"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Control": {
+      "type": "object",
+      "required": [
+        "control_id",
+        "domain",
+        "control_statement",
+        "purpose",
+        "owner_role",
+        "backup_owner_role",
+        "frequency",
+        "system_components",
+        "evidence_types",
+        "evidence_path_convention",
+        "linked_risks",
+        "risk_tier",
+        "population_definition",
+        "sample_unit",
+        "failure_criteria",
+        "last_reviewed_at",
+        "approved_by"
+      ],
+      "properties": {
+        "control_id": {
+          "type": "string",
+          "pattern": "^(AC|CM|PI|CF|IR|MN)-\\d{3}$",
+          "description": "Unique control identifier in the format DOMAIN-NNN"
+        },
+        "domain": {
+          "type": "string",
+          "enum": ["AC", "CM", "PI", "CF", "IR", "MN"],
+          "description": "Control domain: AC=Access Control, CM=Change Management, PI=Processing Integrity, CF=Client Facing, IR=Incident Response, MN=Monitoring"
+        },
+        "control_statement": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Full text of the control statement"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Explanation of why this control exists and what risk it mitigates"
+        },
+        "owner_role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Primary role responsible for executing this control"
+        },
+        "backup_owner_role": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Backup role when the primary owner is unavailable"
+        },
+        "frequency": {
+          "type": "string",
+          "enum": ["Continuous", "Per Change", "Quarterly", "Annual", "Event-driven"],
+          "description": "How often this control is executed"
+        },
+        "system_components": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Systems, tools, or infrastructure involved in this control"
+        },
+        "evidence_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "description": "Types of evidence produced (e.g., screenshot, log, report, approval record)"
+        },
+        "evidence_path_convention": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Template path where evidence is stored, e.g. artifacts/{tenantId}/AC-001/{period}/"
+        },
+        "linked_risks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^RISK-\\d{3}$"
+          },
+          "minItems": 1,
+          "description": "Risk IDs this control mitigates"
+        },
+        "risk_tier": {
+          "type": "string",
+          "enum": ["High", "Medium", "Low"],
+          "description": "Risk tier determines sampling intensity"
+        },
+        "population_definition": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Definition of the population from which samples are drawn"
+        },
+        "sample_unit": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unit of sampling (e.g., transaction, change request, access review)"
+        },
+        "failure_criteria": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Conditions under which a sampled item is considered a failure"
+        },
+        "last_reviewed_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of the last review"
+        },
+        "approved_by": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Person or role who approved the current version of this control"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

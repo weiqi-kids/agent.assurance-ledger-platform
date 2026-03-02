@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/raci-matrix.schema.json",
+  "title": "RACI Matrix",
+  "description": "Schema for the RACI (Responsible, Accountable, Consulted, Informed) matrix mapping controls to roles. Each entry defines the RACI assignment for a control-role pair.",
+  "type": "object",
+  "required": ["schema_version", "matrix"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "matrix": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/RACIRow"
+      },
+      "minItems": 1,
+      "description": "Array of RACI rows, one per control"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "RACIRow": {
+      "type": "object",
+      "required": ["control_id", "assignments"],
+      "properties": {
+        "control_id": {
+          "type": "string",
+          "pattern": "^(AC|CM|PI|CF|IR|MN)-\\d{3}$",
+          "description": "Control this RACI row applies to"
+        },
+        "assignments": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/RACIValue"
+          },
+          "minProperties": 1,
+          "description": "Map of role_id to RACI value. Each key is a role_id and the value is one of R, A, C, I, or -."
+        }
+      },
+      "additionalProperties": false
+    },
+    "RACIValue": {
+      "type": "string",
+      "enum": ["R", "A", "C", "I", "-"],
+      "description": "R=Responsible, A=Accountable, C=Consulted, I=Informed, -=Not involved"
+    }
+  }
+}

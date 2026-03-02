@@ -1,0 +1,39 @@
+name: Subservice Review Reminder
+
+on:
+  schedule:
+    - cron: '0 0 15 1 *' # January 15th annually
+  workflow_dispatch:
+
+jobs:
+  create-review-issue:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Subservice Review Issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const year = new Date().getFullYear();
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `[Annual] Subservice Review ${year}`,
+              body: [
+                `## Subservice Review ${year}`,
+                '',
+                'Annual review of subservice organizations.',
+                '',
+                '### Tasks',
+                '- [ ] Obtain GitHub SOC report',
+                '- [ ] Review exceptions and findings',
+                '- [ ] Draft review memo',
+                '- [ ] Review and sign-off by Quality Manager',
+                `- [ ] Upload to \`ledger/audit/subservice-review-${year}.md\``,
+                '',
+                '### Deadline',
+                `Complete by end of Q1 ${year}`,
+              ].join('\n'),
+              labels: ['subservice-review', 'annual'],
+            });

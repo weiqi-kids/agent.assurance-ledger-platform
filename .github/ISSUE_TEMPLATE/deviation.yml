@@ -1,0 +1,74 @@
+name: Sampling Deviation
+description: Report a deviation found during sampling testing
+labels: ["deviation", "audit"]
+body:
+  - type: input
+    id: sample_id
+    attributes:
+      label: Sample ID
+      description: Identifier of the sample where the deviation was found
+      placeholder: "e.g., SMP-2026-Q1-042"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: control_id
+    attributes:
+      label: Control ID
+      description: The control being tested when the deviation was found
+      options:
+        - AC-001
+        - AC-002
+        - AC-003
+        - AC-004
+        - AC-005
+        - CM-001
+        - CM-002
+        - CM-003
+        - CM-004
+        - CM-005
+        - PI-001
+        - PI-002
+        - PI-003
+        - PI-004
+        - PI-005
+        - CF-001
+        - CF-002
+        - CF-003
+        - CF-004
+        - CF-005
+        - IR-001
+        - IR-002
+        - IR-003
+        - IR-004
+        - IR-005
+        - MN-001
+        - MN-002
+        - MN-003
+        - MN-004
+        - MN-005
+    validations:
+      required: true
+
+  - type: dropdown
+    id: deviation_type
+    attributes:
+      label: Deviation Type
+      description: Category of the deviation per Section 3 deviation definitions
+      options:
+        - Evidence Missing
+        - SLA Exceeded
+        - Approval Absent
+        - Hash Mismatch
+        - Incorrect Masking
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the deviation, including expected vs. actual state
+      placeholder: "Describe what was expected, what was found, and any relevant artifact references..."
+    validations:
+      required: true

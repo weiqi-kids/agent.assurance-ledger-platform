@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/risk-register.schema.json",
+  "title": "Risk Register",
+  "description": "Schema for the organizational risk register. Each risk is linked to controls, scored by likelihood and impact, and tracked with KRI thresholds.",
+  "type": "object",
+  "required": ["schema_version", "risks"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "risks": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Risk"
+      },
+      "description": "Array of risk entries"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Risk": {
+      "type": "object",
+      "required": [
+        "risk_id",
+        "description",
+        "linked_controls",
+        "likelihood",
+        "impact",
+        "risk_score",
+        "mitigation_strategy",
+        "residual_risk_justification",
+        "risk_acceptance_approval",
+        "review_cycle",
+        "kri_threshold",
+        "kri_last_value"
+      ],
+      "properties": {
+        "risk_id": {
+          "type": "string",
+          "pattern": "^RISK-\\d{3}$",
+          "description": "Unique risk identifier"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 10,
+          "description": "Detailed description of the risk"
+        },
+        "linked_controls": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(AC|CM|PI|CF|IR|MN)-\\d{3}$"
+          },
+          "minItems": 1,
+          "description": "Control IDs that mitigate this risk"
+        },
+        "likelihood": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Likelihood score (1=Rare, 2=Unlikely, 3=Possible, 4=Likely, 5=Almost Certain)"
+        },
+        "impact": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5,
+          "description": "Impact score (1=Insignificant, 2=Minor, 3=Moderate, 4=Major, 5=Catastrophic)"
+        },
+        "risk_score": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 25,
+          "description": "Calculated risk score (likelihood x impact)"
+        },
+        "mitigation_strategy": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of the mitigation approach"
+        },
+        "residual_risk_justification": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Justification for accepting the residual risk after mitigation"
+        },
+        "risk_acceptance_approval": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Person or committee that approved the residual risk acceptance"
+        },
+        "review_cycle": {
+          "type": "string",
+          "enum": ["Monthly", "Quarterly", "Semi-Annual", "Annual"],
+          "description": "How often this risk is reviewed"
+        },
+        "kri_threshold": {
+          "type": "number",
+          "description": "Key Risk Indicator threshold value that triggers escalation"
+        },
+        "kri_last_value": {
+          "type": "number",
+          "description": "Most recent KRI measurement value"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

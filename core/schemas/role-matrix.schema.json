@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "core/schemas/role-matrix.schema.json",
+  "title": "Role Matrix",
+  "description": "Schema for the role matrix defining all roles, their descriptions, and associated permissions within the platform.",
+  "type": "object",
+  "required": ["schema_version", "roles"],
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "const": "1.0.0",
+      "description": "Schema version for this document"
+    },
+    "roles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Role"
+      },
+      "minItems": 1,
+      "description": "Array of role definitions"
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "Role": {
+      "type": "object",
+      "required": ["role_id", "role_name", "description", "permissions"],
+      "properties": {
+        "role_id": {
+          "type": "string",
+          "pattern": "^ROLE-\\d{3}$",
+          "description": "Unique role identifier"
+        },
+        "role_name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable role name"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Description of the role's responsibilities"
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Permission"
+          },
+          "description": "List of permissions granted to this role"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Permission": {
+      "type": "object",
+      "required": ["resource", "actions"],
+      "properties": {
+        "resource": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Resource or scope this permission applies to (e.g., cases, controls, evidence, findings)"
+        },
+        "actions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["create", "read", "update", "delete", "approve", "export"]
+          },
+          "minItems": 1,
+          "description": "Allowed actions on the resource"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

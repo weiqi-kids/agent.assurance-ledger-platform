@@ -1,0 +1,170 @@
+"use client";
+
+import { useEffect, useState, useCallback } from "react";
+import Link from "next/link";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { CaseStatusBadge } from "@/components/cases/case-status-badge";
+import { Briefcase, Plus, Loader2 } from "lucide-react";
+
+interface CaseRow {
+  id: string;
+  tenantId: string;
+  title: string;
+  description: string | null;
+  status: string;
+  assignedTo: string | null;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+const STATUS_TABS = ["all", "draft", "active", "review", "delivered", "archived"];
+
+function formatDate(dateStr: string): string {
+  try {
+    const date = new Date(dateStr);
+    return date.toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+    });
+  } catch {
+    return dateStr;
+  }
+}
+
+export default function CasesPage() {
+  const [cases, setCases] = useState<CaseRow[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState("all");
+
+  const fetchCases = useCallback(async (status: string) => {
+    setLoading(true);
+    setError(null);
+    try {
+      const params = status !== "all" ? `?status=${status}` : "";
+      const res = await fetch(`/api/cases${params}`);
+      if (!res.ok) {
+        const data = (await res.json()) as { error?: string };
+        throw new Error(data.error ?? `HTTP ${res.status}`);
+      }
+      const data = (await res.json()) as { cases: CaseRow[] };
+      setCases(data.cases);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load cases");
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    void fetchCases(activeTab);
+  }, [activeTab, fetchCases]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Cases</h1>
+        <Button asChild>
+          <Link href="/cases/new">
+            <Plus className="h-4 w-4" />
+            Create Case
+          </Link>
+        </Button>
+      </div>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Case Management</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs
+            value={activeTab}
+            onValueChange={setActiveTab}
+          >
+            <TabsList>
+              {STATUS_TABS.map((tab) => (
+                <TabsTrigger key={tab} value={tab} className="capitalize">
+                  {tab}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+
+            {STATUS_TABS.map((tab) => (
+              <TabsContent key={tab} value={tab}>
+                {loading ? (
+                  <div className="flex items-center justify-center py-12">
+                    <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                  </div>
+                ) : error ? (
+                  <div className="py-8 text-center text-destructive">
+                    <p>{error}</p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-4"
+                      onClick={() => void fetchCases(activeTab)}
+                    >
+                      Retry
+                    </Button>
+                  </div>
+                ) : cases.length === 0 ? (
+                  <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
+                    <Briefcase className="mb-4 h-12 w-12" />
+                    <p className="text-lg font-medium">No cases yet</p>
+                    <p className="text-sm">
+                      Cases will appear here once created.
+                    </p>
+                  </div>
+                ) : (
+                  <Table>
+                    <TableHeader>
+                      <TableRow>
+                        <TableHead>Title</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Created By</TableHead>
+                        <TableHead>Created At</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {cases.map((c) => (
+                        <TableRow key={c.id}>
+                          <TableCell>
+                            <Link
+                              href={`/cases/${c.id}`}
+                              className="font-medium text-primary hover:underline"
+                            >
+                              {c.title}
+                            </Link>
+                          </TableCell>
+                          <TableCell>
+                            <CaseStatusBadge status={c.status} />
+                          </TableCell>
+                          <TableCell className="font-mono text-xs">
+                            {c.createdBy}
+                          </TableCell>
+                          <TableCell>{formatDate(c.createdAt)}</TableCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                )}
+              </TabsContent>
+            ))}
+          </Tabs>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}

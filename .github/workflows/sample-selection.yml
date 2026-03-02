@@ -1,0 +1,37 @@
+name: Sample Selection
+
+on:
+  workflow_dispatch:
+    inputs:
+      period:
+        description: 'Audit period (e.g. 2025-Q1)'
+        required: true
+      seed:
+        description: 'Random seed (integer)'
+        required: true
+
+jobs:
+  select:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: core/web/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+        working-directory: core/web
+
+      - name: Select Samples
+        run: npx tsx core/scripts/select-samples.ts --period ${{ inputs.period }} --seed ${{ inputs.seed }}
+        working-directory: core/web
+        env:
+          DATABASE_URL: file:./dev.db
+          DB_DRIVER: sqlite

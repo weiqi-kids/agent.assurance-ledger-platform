@@ -1,0 +1,30 @@
+name: GPG Signature Verification
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify-signatures:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify all commits are signed
+        run: |
+          BASE_SHA=${{ github.event.pull_request.base.sha }}
+          HEAD_SHA=${{ github.event.pull_request.head.sha }}
+          UNSIGNED=""
+          for COMMIT in $(git log --format="%H" ${BASE_SHA}..${HEAD_SHA}); do
+            VERIFIED=$(git log --format="%G?" -1 $COMMIT)
+            if [ "$VERIFIED" = "N" ] || [ "$VERIFIED" = "U" ]; then
+              UNSIGNED="$UNSIGNED $COMMIT"
+            fi
+          done
+          if [ -n "$UNSIGNED" ]; then
+            echo "::error::Unsigned commits found:$UNSIGNED"
+            exit 1
+          fi
+          echo "All commits are GPG signed."

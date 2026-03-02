@@ -1,0 +1,43 @@
+name: Client Complaint
+description: Log a client complaint per ISQM1 governance requirements
+labels: ["complaint", "client"]
+body:
+  - type: input
+    id: client_name
+    attributes:
+      label: Client Name
+      description: Name of the client filing the complaint
+      placeholder: "e.g., Acme Corporation"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: complaint_category
+    attributes:
+      label: Complaint Category
+      description: Category of the complaint
+      options:
+        - Service Quality
+        - Timeliness
+        - Communication
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Detailed description of the complaint
+      placeholder: "Describe the complaint, including dates, interactions, and impact..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_resolution
+    attributes:
+      label: Expected Resolution
+      description: What resolution does the client expect or what has been proposed
+      placeholder: "Describe the expected or proposed resolution and timeline..."
+    validations:
+      required: true

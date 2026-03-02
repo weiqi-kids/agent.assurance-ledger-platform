@@ -1,0 +1,54 @@
+name: Change Request
+description: Request a change to schemas, control definitions, or governance matrices
+labels: ["change-request", "governance"]
+body:
+  - type: dropdown
+    id: change_type
+    attributes:
+      label: Change Type
+      description: Category of the proposed change
+      options:
+        - Schema Change
+        - Control Definition
+        - Role Matrix
+        - RACI Matrix
+    validations:
+      required: true
+
+  - type: textarea
+    id: current_state
+    attributes:
+      label: Current State
+      description: Describe the current state of the item being changed, with file paths and relevant values
+      placeholder: "Describe the current definition, schema, or matrix entry..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed_change
+    attributes:
+      label: Proposed Change
+      description: Describe the proposed change in detail, including new values and affected files
+      placeholder: "Describe the new definition, schema, or matrix entry..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: justification
+    attributes:
+      label: Justification
+      description: Explain why this change is necessary, including any regulatory or audit drivers
+      placeholder: "Explain the business or compliance reason for this change..."
+    validations:
+      required: true
+
+  - type: dropdown
+    id: backward_compatible
+    attributes:
+      label: Backward Compatible
+      description: Will this change maintain backward compatibility with existing ledger events and projections?
+      options:
+        - "Yes"
+        - "No"
+    validations:
+      required: true

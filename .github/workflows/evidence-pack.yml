@@ -1,0 +1,37 @@
+name: Generate Evidence Pack
+
+on:
+  workflow_dispatch:
+    inputs:
+      period:
+        description: 'Audit period (e.g. 2025-Q1)'
+        required: true
+      signer:
+        description: 'Signer user ID'
+        required: true
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: core/web/pnpm-lock.yaml
+
+      - run: pnpm install --frozen-lockfile
+        working-directory: core/web
+
+      - name: Generate Evidence Pack
+        run: npx tsx core/scripts/generate-evidence-pack.ts --period ${{ inputs.period }} --signer ${{ inputs.signer }}
+        working-directory: core/web
+        env:
+          DATABASE_URL: file:./dev.db
+          DB_DRIVER: sqlite

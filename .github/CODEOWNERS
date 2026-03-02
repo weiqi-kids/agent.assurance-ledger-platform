@@ -1,0 +1,24 @@
+# Assurance Ledger Platform — Code Owners
+# Require review for changes to critical files
+
+# Ledger data (immutable evidence store)
+/ledger/ @quality-manager
+
+# Governance records
+/ledger/governance/ @quality-manager @engagement-partner
+
+# Audit records
+/ledger/audit/ @quality-manager
+
+# JSON Schemas (version governance — dual approval required)
+/core/schemas/ @quality-manager @engagement-partner
+
+# Core application code
+/core/web/ @tech-lead
+
+# GitHub Actions workflows
+/.github/workflows/ @tech-lead @quality-manager
+
+# Root configuration
+/CLAUDE.md @quality-manager
+/ecosystem.config.js @tech-lead
