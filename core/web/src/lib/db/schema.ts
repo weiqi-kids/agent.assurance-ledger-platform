@@ -1,5 +1,6 @@
 import { sqliteTable, text, integer, real } from "drizzle-orm/sqlite-core";
 import { relations, sql } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
 
 // ============================================================
 // Schema Notes:
@@ -16,10 +17,10 @@ import { relations, sql } from "drizzle-orm";
 // ------------------------------------------------------------
 
 export const users = sqliteTable("users", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: text("email_verified"),
+  emailVerified: integer("email_verified", { mode: "timestamp_ms" }),
   image: text("image"),
   role: text("role").notNull().default("viewer"),
   tenantId: text("tenant_id"),
@@ -32,7 +33,7 @@ export const users = sqliteTable("users", {
 });
 
 export const accounts = sqliteTable("accounts", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -49,18 +50,18 @@ export const accounts = sqliteTable("accounts", {
 });
 
 export const sessions = sqliteTable("sessions", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   sessionToken: text("session_token").notNull().unique(),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  expires: text("expires").notNull(),
+  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
 
 export const verificationTokens = sqliteTable("verification_tokens", {
   identifier: text("identifier").notNull(),
   token: text("token").notNull().unique(),
-  expires: text("expires").notNull(),
+  expires: integer("expires", { mode: "timestamp_ms" }).notNull(),
 });
 
 // ------------------------------------------------------------

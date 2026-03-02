@@ -1,5 +1,6 @@
-import { pgTable, text, integer, doublePrecision } from "drizzle-orm/pg-core";
+import { pgTable, text, integer, doublePrecision, timestamp } from "drizzle-orm/pg-core";
 import { relations, sql } from "drizzle-orm";
+import { randomUUID } from "node:crypto";
 
 // ============================================================
 // PostgreSQL Schema — mirrors schema.ts (SQLite) structure exactly.
@@ -12,10 +13,10 @@ import { relations, sql } from "drizzle-orm";
 // ------------------------------------------------------------
 
 export const users = pgTable("users", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   name: text("name"),
   email: text("email").notNull(),
-  emailVerified: text("email_verified"),
+  emailVerified: timestamp("email_verified", { mode: "date" }),
   image: text("image"),
   role: text("role").notNull().default("viewer"),
   tenantId: text("tenant_id"),
@@ -28,7 +29,7 @@ export const users = pgTable("users", {
 });
 
 export const accounts = pgTable("accounts", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -45,18 +46,18 @@ export const accounts = pgTable("accounts", {
 });
 
 export const sessions = pgTable("sessions", {
-  id: text("id").primaryKey(),
+  id: text("id").primaryKey().$defaultFn(() => randomUUID()),
   sessionToken: text("session_token").notNull().unique(),
   userId: text("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
-  expires: text("expires").notNull(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
 export const verificationTokens = pgTable("verification_tokens", {
   identifier: text("identifier").notNull(),
   token: text("token").notNull().unique(),
-  expires: text("expires").notNull(),
+  expires: timestamp("expires", { mode: "date" }).notNull(),
 });
 
 // ------------------------------------------------------------

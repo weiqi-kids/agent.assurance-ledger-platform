@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { getDb, isDatabaseConfigured } from "@/lib/db";
+import { users, accounts, sessions, verificationTokens } from "@/lib/db/schema";
 import LineProvider from "@/lib/auth/line-provider";
 import type { Role } from "@/lib/auth/roles";
 
@@ -25,7 +26,13 @@ declare module "next-auth" {
 function createAuth() {
   return NextAuth({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    adapter: DrizzleAdapter(getDb() as any),
+    adapter: DrizzleAdapter(getDb() as any, {
+      usersTable: users,
+      accountsTable: accounts,
+      sessionsTable: sessions,
+      verificationTokensTable: verificationTokens,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } as any),
     providers: [
       Google({
         clientId: process.env.GOOGLE_CLIENT_ID,

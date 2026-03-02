@@ -78,6 +78,7 @@ export default function UsersSettingsPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [pendingRoles, setPendingRoles] = useState<Record<string, string>>({});
+  const [pendingTenants, setPendingTenants] = useState<Record<string, string>>({});
   const [savingUserId, setSavingUserId] = useState<string | null>(null);
   const [isInviteOpen, setIsInviteOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -109,23 +110,43 @@ export default function UsersSettingsPage() {
     setPendingRoles((prev) => ({ ...prev, [userId]: newRole }));
   };
 
-  const handleSaveRole = async (userId: string) => {
+  const handleTenantChange = (userId: string, newTenant: string) => {
+    setPendingTenants((prev) => ({ ...prev, [userId]: newTenant }));
+  };
+
+  const handleSave = async (userId: string) => {
     const newRole = pendingRoles[userId];
-    if (!newRole) return;
+    const newTenant = pendingTenants[userId];
+    if (!newRole && newTenant === undefined) return;
 
     setSavingUserId(userId);
     try {
+      const payload: Record<string, string> = { userId };
+      if (newRole) payload.role = newRole;
+      if (newTenant !== undefined) payload.tenantId = newTenant;
+
       const res = await fetch("/api/settings/users", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, role: newRole }),
+        body: JSON.stringify(payload),
       });
 
       if (res.ok) {
         setUsers((prev) =>
-          prev.map((u) => (u.id === userId ? { ...u, role: newRole } : u))
+          prev.map((u) => {
+            if (u.id !== userId) return u;
+            const updated = { ...u };
+            if (newRole) updated.role = newRole;
+            if (newTenant !== undefined) updated.tenantId = newTenant;
+            return updated;
+          })
         );
         setPendingRoles((prev) => {
+          const next = { ...prev };
+          delete next[userId];
+          return next;
+        });
+        setPendingTenants((prev) => {
           const next = { ...prev };
           delete next[userId];
           return next;
@@ -213,7 +234,10 @@ export default function UsersSettingsPage() {
           <TableBody>
             {users.map((user) => {
               const currentRole = pendingRoles[user.id] ?? user.role;
-              const hasChanged = pendingRoles[user.id] !== undefined;
+              const currentTenant = pendingTenants[user.id] ?? user.tenantId ?? "";
+              const hasChanged =
+                pendingRoles[user.id] !== undefined ||
+                pendingTenants[user.id] !== undefined;
 
               return (
                 <TableRow key={user.id}>
@@ -258,15 +282,23 @@ export default function UsersSettingsPage() {
                       </SelectContent>
                     </Select>
                   </TableCell>
-                  <TableCell className="text-sm text-muted-foreground">
-                    {user.tenantId ?? "-"}
+                  <TableCell>
+                    <input
+                      type="text"
+                      className="h-9 w-[140px] rounded-md border border-input bg-background px-3 text-sm"
+                      placeholder="tenant-id"
+                      value={currentTenant}
+                      onChange={(e) =>
+                        handleTenantChange(user.id, e.target.value)
+                      }
+                    />
                   </TableCell>
                   <TableCell className="text-right">
                     {hasChanged && (
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleSaveRole(user.id)}
+                        onClick={() => handleSave(user.id)}
                         disabled={savingUserId === user.id}
                       >
                         {savingUserId === user.id ? (

@@ -44,14 +44,14 @@ export async function PATCH(request: NextRequest) {
     return authErrorResponse(error);
   }
 
-  let body: { userId?: string; role?: string };
+  let body: { userId?: string; role?: string; tenantId?: string };
   try {
     body = await request.json();
   } catch {
     return Response.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  const { userId, role } = body;
+  const { userId, role, tenantId } = body;
 
   if (!userId || typeof userId !== "string") {
     return Response.json(
@@ -60,14 +60,14 @@ export async function PATCH(request: NextRequest) {
     );
   }
 
-  if (!role || typeof role !== "string") {
+  if (!role && tenantId === undefined) {
     return Response.json(
-      { error: "role is required and must be a string" },
+      { error: "At least one of role or tenantId must be provided" },
       { status: 400 }
     );
   }
 
-  if (!isValidRole(role)) {
+  if (role && !isValidRole(role)) {
     return Response.json(
       {
         error: `Invalid role "${role}". Must be one of: engagement-partner, quality-manager, tech-lead, system-admin, auditor, viewer`,
@@ -90,11 +90,15 @@ export async function PATCH(request: NextRequest) {
     return Response.json({ error: "User not found" }, { status: 404 });
   }
 
-  // Update role
+  // Build update payload
+  const updates: Record<string, string> = { updatedAt: new Date().toISOString() };
+  if (role) updates.role = role;
+  if (tenantId !== undefined) updates.tenantId = tenantId;
+
   await db
     .update(users)
-    .set({ role, updatedAt: new Date().toISOString() })
+    .set(updates)
     .where(eq(users.id, userId));
 
-  return Response.json({ success: true, userId, role });
+  return Response.json({ success: true, userId, ...updates });
 }

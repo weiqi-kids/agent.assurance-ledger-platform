@@ -25,6 +25,24 @@ export async function projectEvent(
   db: any,
   event: LedgerEvent
 ): Promise<void> {
+  // For CASE_CREATED, insert the case row FIRST (caseLedgerEvents.caseId has FK to cases.id)
+  if (event.event_type === "CASE_CREATED") {
+    const payload = event.payload as {
+      title: string;
+      description?: string;
+    };
+    await db.insert(cases).values({
+      id: event.case_id,
+      tenantId: event.tenant_id,
+      title: payload.title,
+      description: payload.description ?? null,
+      status: "draft",
+      createdBy: event.actor,
+      createdAt: event.timestamp,
+      updatedAt: event.timestamp,
+    });
+  }
+
   // Insert the event into the caseLedgerEvents table
   await db.insert(caseLedgerEvents).values({
     id: nanoid(),
@@ -39,25 +57,11 @@ export async function projectEvent(
     payload: JSON.stringify(event.payload),
   });
 
-  // Handle specific event types
+  // Handle other event types
   switch (event.event_type) {
-    case "CASE_CREATED": {
-      const payload = event.payload as {
-        title: string;
-        description?: string;
-      };
-      await db.insert(cases).values({
-        id: event.case_id,
-        tenantId: event.tenant_id,
-        title: payload.title,
-        description: payload.description ?? null,
-        status: "draft",
-        createdBy: event.actor,
-        createdAt: event.timestamp,
-        updatedAt: event.timestamp,
-      });
+    case "CASE_CREATED":
+      // Already handled above
       break;
-    }
 
     case "STATUS_CHANGED": {
       const payload = event.payload as { new_status: string };

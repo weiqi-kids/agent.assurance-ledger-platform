@@ -26,21 +26,23 @@ export default function LineProvider<P extends LineProfile>(
     id: "line",
     name: "LINE",
     type: "oauth",
+    checks: ["state"],
     authorization: {
       url: "https://access.line.me/oauth2/v2.1/authorize",
       params: {
-        scope: "profile openid",
+        scope: "profile",
         response_type: "code",
       },
     },
     token: "https://api.line.me/oauth2/v2.1/token",
     userinfo: "https://api.line.me/v2/profile",
+    idToken: false,
     profile(profile) {
       return {
         id: profile.userId,
         name: profile.displayName,
         image: profile.pictureUrl,
-        email: null, // LINE doesn't provide email by default
+        email: `${profile.userId}@line.local`, // LINE doesn't provide email by default; placeholder for DB NOT NULL constraint
       };
     },
     style: {
