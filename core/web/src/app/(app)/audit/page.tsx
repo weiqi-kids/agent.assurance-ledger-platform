@@ -80,18 +80,18 @@ export default function AuditPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Audit</h1>
+        <h1 className="text-2xl font-bold">審計</h1>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" asChild>
             <Link href="/audit/samples">
               <Plus className="mr-1 h-4 w-4" />
-              New Sample
+              新增抽樣
             </Link>
           </Button>
           <Button variant="outline" size="sm" asChild>
             <Link href="/audit/evidence-packs">
               <PackageCheck className="mr-1 h-4 w-4" />
-              Evidence Packs
+              證據包
             </Link>
           </Button>
         </div>
@@ -101,7 +101,7 @@ export default function AuditPage() {
       <div className="grid gap-4 sm:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Findings</CardTitle>
+            <CardTitle className="text-sm font-medium">發現事項</CardTitle>
             <ClipboardCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -112,12 +112,12 @@ export default function AuditPage() {
                 openFindings.length
               )}
             </div>
-            <p className="text-xs text-muted-foreground">open findings</p>
+            <p className="text-xs text-muted-foreground">項未結發現</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Sampling</CardTitle>
+            <CardTitle className="text-sm font-medium">抽樣</CardTitle>
             <FileSearch className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -128,12 +128,12 @@ export default function AuditPage() {
                 samples.length
               )}
             </div>
-            <p className="text-xs text-muted-foreground">sampling sessions</p>
+            <p className="text-xs text-muted-foreground">次抽樣</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Evidence Packs</CardTitle>
+            <CardTitle className="text-sm font-medium">證據包</CardTitle>
             <PackageCheck className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -190,7 +190,7 @@ export default function AuditPage() {
       {/* Recent Findings Table */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-base">Recent Findings</CardTitle>
+          <CardTitle className="text-base">近期發現</CardTitle>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" asChild>
               <Link href="/audit/findings/new">
@@ -200,7 +200,7 @@ export default function AuditPage() {
             </Button>
             <Button variant="ghost" size="sm" asChild>
               <Link href="/audit/findings">
-                View All
+                查看全部
                 <ArrowRight className="ml-1 h-4 w-4" />
               </Link>
             </Button>
@@ -210,11 +210,11 @@ export default function AuditPage() {
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[140px]">Finding ID</TableHead>
-                <TableHead className="w-[100px]">Control</TableHead>
-                <TableHead className="w-[100px]">Severity</TableHead>
-                <TableHead className="w-[110px]">Status</TableHead>
-                <TableHead>Description</TableHead>
+                <TableHead className="w-[140px]">發現 ID</TableHead>
+                <TableHead className="w-[100px]">控制點</TableHead>
+                <TableHead className="w-[100px]">嚴重程度</TableHead>
+                <TableHead className="w-[110px]">狀態</TableHead>
+                <TableHead>說明</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

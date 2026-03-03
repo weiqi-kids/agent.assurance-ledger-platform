@@ -94,17 +94,17 @@ export default function ControlsPage() {
           onValueChange={(v) => updateFilters("riskTier", v)}
         >
           <SelectTrigger className="w-[160px]">
-            <SelectValue placeholder="Risk Tier" />
+            <SelectValue placeholder="風險層級" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Risk Tiers</SelectItem>
-            <SelectItem value="High">High</SelectItem>
-            <SelectItem value="Medium">Medium</SelectItem>
-            <SelectItem value="Low">Low</SelectItem>
+            <SelectItem value="all">所有風險層級</SelectItem>
+            <SelectItem value="High">高</SelectItem>
+            <SelectItem value="Medium">中</SelectItem>
+            <SelectItem value="Low">低</SelectItem>
           </SelectContent>
         </Select>
         <span className="text-sm text-muted-foreground">
-          {loading ? "Loading..." : `${controls.length} controls`}
+          {loading ? "載入中..." : `${controls.length} 個控制點`}
         </span>
       </div>
 
@@ -112,12 +112,12 @@ export default function ControlsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Control ID</TableHead>
-              <TableHead className="w-[80px]">Domain</TableHead>
-              <TableHead>Statement</TableHead>
-              <TableHead className="w-[100px]">Risk Tier</TableHead>
-              <TableHead className="w-[110px]">Frequency</TableHead>
-              <TableHead className="w-[140px]">Owner</TableHead>
+              <TableHead className="w-[100px]">控制點 ID</TableHead>
+              <TableHead className="w-[80px]">領域</TableHead>
+              <TableHead>控制描述</TableHead>
+              <TableHead className="w-[100px]">風險層級</TableHead>
+              <TableHead className="w-[110px]">頻率</TableHead>
+              <TableHead className="w-[140px]">負責人</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -147,7 +147,7 @@ export default function ControlsPage() {
             ) : controls.length === 0 ? (
               <TableRow>
                 <TableCell colSpan={6} className="text-center text-muted-foreground">
-                  No controls found matching the selected filters.
+                  沒有符合篩選條件的控制點。
                 </TableCell>
               </TableRow>
             ) : (

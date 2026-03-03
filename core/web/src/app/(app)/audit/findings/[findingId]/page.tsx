@@ -100,9 +100,9 @@ export default function FindingDetailPage() {
       <div className="space-y-4">
         <Button variant="ghost" size="sm" onClick={() => router.back()}>
           <ArrowLeft className="mr-1 h-4 w-4" />
-          Back
+          返回
         </Button>
-        <p className="text-muted-foreground">Finding not found.</p>
+        <p className="text-muted-foreground">找不到發現事項。</p>
       </div>
     );
   }
@@ -112,7 +112,7 @@ export default function FindingDetailPage() {
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="sm" onClick={() => router.back()}>
           <ArrowLeft className="mr-1 h-4 w-4" />
-          Back
+          返回
         </Button>
         <h1 className="text-2xl font-bold">{finding.findingId}</h1>
         <SeverityBadge severity={finding.severity} />
@@ -123,32 +123,32 @@ export default function FindingDetailPage() {
         {/* Finding Details */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Finding Details</CardTitle>
+            <CardTitle className="text-base">發現詳情</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <span className="text-muted-foreground">Control ID</span>
+              <span className="text-muted-foreground">控制點 ID</span>
               <span>{finding.controlId ?? "-"}</span>
 
-              <span className="text-muted-foreground">Case ID</span>
+              <span className="text-muted-foreground">案件 ID</span>
               <span>{finding.caseId ?? "-"}</span>
 
-              <span className="text-muted-foreground">Severity</span>
+              <span className="text-muted-foreground">嚴重程度</span>
               <span>{finding.severity}</span>
 
-              <span className="text-muted-foreground">Detection Method</span>
+              <span className="text-muted-foreground">偵測方式</span>
               <span>{finding.detectionMethod}</span>
 
-              <span className="text-muted-foreground">Impact</span>
+              <span className="text-muted-foreground">影響</span>
               <span>{finding.controlEffectivenessImpact}</span>
 
-              <span className="text-muted-foreground">Auditor Notified</span>
-              <span>{finding.auditorNotified ? "Yes" : "No"}</span>
+              <span className="text-muted-foreground">已通知審計師</span>
+              <span>{finding.auditorNotified ? "是" : "否"}</span>
 
-              <span className="text-muted-foreground">Created At</span>
+              <span className="text-muted-foreground">建立時間</span>
               <span>{new Date(finding.createdAt).toLocaleString()}</span>
 
-              <span className="text-muted-foreground">Resolved At</span>
+              <span className="text-muted-foreground">解決時間</span>
               <span>
                 {finding.resolvedAt
                   ? new Date(finding.resolvedAt).toLocaleString()
@@ -164,7 +164,7 @@ export default function FindingDetailPage() {
             </div>
 
             <div className="pt-2">
-              <p className="text-sm text-muted-foreground">Description</p>
+              <p className="text-sm text-muted-foreground">說明</p>
               <p className="mt-1 text-sm">{finding.description}</p>
             </div>
           </CardContent>
@@ -173,38 +173,38 @@ export default function FindingDetailPage() {
         {/* Update Status */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Update</CardTitle>
+            <CardTitle className="text-base">更新</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="status">Status</Label>
+              <Label htmlFor="status">狀態</Label>
               <Select value={status} onValueChange={setStatus}>
                 <SelectTrigger id="status">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="open">Open</SelectItem>
-                  <SelectItem value="investigating">Investigating</SelectItem>
-                  <SelectItem value="remediated">Remediated</SelectItem>
-                  <SelectItem value="closed">Closed</SelectItem>
+                  <SelectItem value="open">開放</SelectItem>
+                  <SelectItem value="investigating">調查中</SelectItem>
+                  <SelectItem value="remediated">已補救</SelectItem>
+                  <SelectItem value="closed">已關閉</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="responseText">Management Response / Remediation Notes</Label>
+              <Label htmlFor="responseText">管理層回應 / 補救說明</Label>
               <Textarea
                 id="responseText"
                 value={responseText}
                 onChange={(e) => setResponseText(e.target.value)}
-                placeholder="Enter remediation plan or management response..."
+                placeholder="輸入補救計畫或管理層回應..."
                 rows={6}
               />
             </div>
 
             <Button onClick={handleSave} disabled={saving}>
               <Save className="mr-1 h-4 w-4" />
-              {saving ? "Saving..." : "Save Changes"}
+              {saving ? "儲存中..." : "儲存變更"}
             </Button>
           </CardContent>
         </Card>

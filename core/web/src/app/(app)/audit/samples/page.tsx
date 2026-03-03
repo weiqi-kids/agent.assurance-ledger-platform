@@ -106,21 +106,21 @@ export default function SamplesPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Sampling Sessions</h1>
+        <h1 className="text-2xl font-bold">抽樣記錄</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
               <Plus className="mr-1 h-4 w-4" />
-              Generate New Sample
+              產生新樣本
             </Button>
           </DialogTrigger>
           <DialogContent className="max-w-lg">
             <DialogHeader>
-              <DialogTitle>Generate New Sample</DialogTitle>
+              <DialogTitle>產生新樣本</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="period">Period (e.g. 2026-Q1)</Label>
+                <Label htmlFor="period">期間（例：2026-Q1）</Label>
                 <Input
                   id="period"
                   value={period}
@@ -129,7 +129,7 @@ export default function SamplesPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="controlId">Control ID</Label>
+                <Label htmlFor="controlId">控制點 ID</Label>
                 <Input
                   id="controlId"
                   value={controlId}
@@ -138,7 +138,7 @@ export default function SamplesPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="seed">Seed (optional, auto-generated if empty)</Label>
+                <Label htmlFor="seed">種子碼（選填，留空自動產生）</Label>
                 <Input
                   id="seed"
                   value={seed}
@@ -148,7 +148,7 @@ export default function SamplesPage() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="population">Population (one item per line)</Label>
+                <Label htmlFor="population">母體（每行一筆）</Label>
                 <textarea
                   id="population"
                   className="flex min-h-[120px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
@@ -158,7 +158,7 @@ export default function SamplesPage() {
                 />
               </div>
               <Button onClick={handleCreate} disabled={creating} className="w-full">
-                {creating ? "Generating..." : "Generate Sample"}
+                {creating ? "產生中..." : "產生樣本"}
               </Button>
             </div>
           </DialogContent>
@@ -167,18 +167,18 @@ export default function SamplesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">All Sampling Sessions</CardTitle>
+          <CardTitle className="text-base">所有抽樣記錄</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Period</TableHead>
-                <TableHead className="w-[100px]">Control ID</TableHead>
-                <TableHead className="w-[80px]">Seed</TableHead>
-                <TableHead className="w-[100px]">Sample Size</TableHead>
-                <TableHead className="w-[120px]">Engine</TableHead>
-                <TableHead className="w-[140px]">Created At</TableHead>
+                <TableHead className="w-[100px]">期間</TableHead>
+                <TableHead className="w-[100px]">控制點 ID</TableHead>
+                <TableHead className="w-[80px]">種子碼</TableHead>
+                <TableHead className="w-[100px]">樣本數</TableHead>
+                <TableHead className="w-[120px]">引擎</TableHead>
+                <TableHead className="w-[140px]">建立時間</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>

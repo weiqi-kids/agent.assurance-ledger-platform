@@ -42,7 +42,7 @@ export default function NewCasePage() {
       };
       router.push(`/cases/${data.case.id}`);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create case");
+      setError(err instanceof Error ? err.message : "建立案件失敗");
       setSubmitting(false);
     }
   }
@@ -55,20 +55,20 @@ export default function NewCasePage() {
             <ArrowLeft className="h-4 w-4" />
           </Link>
         </Button>
-        <h1 className="text-2xl font-bold">Create New Case</h1>
+        <h1 className="text-2xl font-bold">建立新案件</h1>
       </div>
 
       <Card className="max-w-2xl">
         <CardHeader>
-          <CardTitle>Case Details</CardTitle>
+          <CardTitle>案件資訊</CardTitle>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="title">Title *</Label>
+              <Label htmlFor="title">標題 *</Label>
               <Input
                 id="title"
-                placeholder="Enter case title"
+                placeholder="輸入案件標題"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
                 required
@@ -77,10 +77,10 @@ export default function NewCasePage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="description">Description</Label>
+              <Label htmlFor="description">說明</Label>
               <Textarea
                 id="description"
-                placeholder="Enter case description (optional)"
+                placeholder="輸入案件說明（選填）"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={4}
@@ -99,14 +99,14 @@ export default function NewCasePage() {
                 {submitting ? (
                   <>
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Creating...
+                    建立中...
                   </>
                 ) : (
-                  "Create Case"
+                  "建立案件"
                 )}
               </Button>
               <Button variant="outline" asChild disabled={submitting}>
-                <Link href="/cases">Cancel</Link>
+                <Link href="/cases">取消</Link>
               </Button>
             </div>
           </form>

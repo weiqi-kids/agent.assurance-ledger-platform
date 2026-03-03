@@ -12,24 +12,24 @@ const STATUS_CONFIG: Record<
   }
 > = {
   draft: {
-    label: "Draft",
+    label: "草稿",
     variant: "secondary",
   },
   active: {
-    label: "Active",
+    label: "進行中",
     variant: "default",
   },
   review: {
-    label: "Review",
+    label: "審閱",
     variant: "outline",
   },
   delivered: {
-    label: "Delivered",
+    label: "已交付",
     variant: "default",
     className: "bg-green-600 text-white hover:bg-green-700",
   },
   archived: {
-    label: "Archived",
+    label: "已封存",
     variant: "secondary",
     className: "opacity-60",
   },

@@ -21,7 +21,7 @@ export function HashChainIndicator({
     return (
       <div className="flex items-center gap-2 text-sm text-muted-foreground">
         <Loader2 className="h-4 w-4 animate-spin" />
-        <span>Verifying chain...</span>
+        <span>驗證鏈結中...</span>
       </div>
     );
   }
@@ -31,8 +31,8 @@ export function HashChainIndicator({
       <div className="flex items-center gap-2 text-sm text-green-600">
         <CheckCircle2 className="h-4 w-4" />
         <span>
-          Chain Valid
-          {eventCount !== undefined && ` (${eventCount} events verified)`}
+          鏈結有效
+          {eventCount !== undefined && `（${eventCount} 事件已驗證）`}
         </span>
       </div>
     );
@@ -42,7 +42,7 @@ export function HashChainIndicator({
     <div className="flex flex-col gap-1">
       <div className="flex items-center gap-2 text-sm text-red-600">
         <XCircle className="h-4 w-4" />
-        <span>Chain Broken</span>
+        <span>鏈結斷裂</span>
       </div>
       {error && (
         <p className="text-xs text-muted-foreground pl-6">{error}</p>

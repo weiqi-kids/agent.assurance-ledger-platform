@@ -78,7 +78,7 @@ export default function RolesPage() {
           </CardHeader>
           <CardContent>
             <label className="mb-2 block text-xs font-medium uppercase text-muted-foreground">
-              Permissions ({entry.permissions.length})
+              權限（{entry.permissions.length}）
             </label>
             <div className="flex flex-wrap gap-1">
               {entry.permissions.map((perm) => (

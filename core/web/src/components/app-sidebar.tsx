@@ -55,7 +55,7 @@ export function AppSidebar() {
 
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>導覽</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {filteredNav.map((item) => {
@@ -111,12 +111,12 @@ export function AppSidebar() {
                   ) : (
                     <Moon className="mr-2 h-4 w-4" />
                   )}
-                  {theme === "dark" ? "Light Mode" : "Dark Mode"}
+                  {theme === "dark" ? "淺色模式" : "深色模式"}
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={() => signOut()}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  Sign Out
+                  登出
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

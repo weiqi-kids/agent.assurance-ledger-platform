@@ -101,7 +101,7 @@ export default function RiskRegisterPage() {
       const data = (await res.json()) as { risks: RiskRow[] };
       setRisks(data.risks);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load risks");
+      setError(err instanceof Error ? err.message : "載入風險失敗");
     } finally {
       setLoading(false);
     }
@@ -144,7 +144,7 @@ export default function RiskRegisterPage() {
       setDialogOpen(false);
       void fetchRisks();
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to create risk");
+      setError(err instanceof Error ? err.message : "建立風險失敗");
     } finally {
       setCreating(false);
     }
@@ -153,7 +153,7 @@ export default function RiskRegisterPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Risk Register</h1>
+        <h1 className="text-2xl font-bold">風險登記簿</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button>
@@ -163,21 +163,21 @@ export default function RiskRegisterPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
-              <DialogTitle>Add Risk Entry</DialogTitle>
+              <DialogTitle>新增風險項目</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">說明</Label>
                 <Textarea
                   id="description"
                   name="description"
                   required
-                  placeholder="Describe the risk..."
+                  placeholder="描述風險..."
                 />
               </div>
               <div>
                 <Label htmlFor="linkedControls">
-                  Linked Controls (comma-separated)
+                  關聯控制點（逗號分隔）
                 </Label>
                 <Input
                   id="linkedControls"
@@ -187,7 +187,7 @@ export default function RiskRegisterPage() {
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="likelihood">Likelihood (1-5)</Label>
+                  <Label htmlFor="likelihood">可能性（1-5）</Label>
                   <Input
                     id="likelihood"
                     name="likelihood"
@@ -198,7 +198,7 @@ export default function RiskRegisterPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="impact">Impact (1-5)</Label>
+                  <Label htmlFor="impact">影響度（1-5）</Label>
                   <Input
                     id="impact"
                     name="impact"
@@ -210,27 +210,27 @@ export default function RiskRegisterPage() {
                 </div>
               </div>
               <div>
-                <Label htmlFor="mitigationStrategy">Mitigation Strategy</Label>
+                <Label htmlFor="mitigationStrategy">緩解策略</Label>
                 <Textarea
                   id="mitigationStrategy"
                   name="mitigationStrategy"
                   required
-                  placeholder="Describe mitigation..."
+                  placeholder="描述緩解方式..."
                 />
               </div>
               <div>
                 <Label htmlFor="residualRiskJustification">
-                  Residual Risk Justification
+                  殘餘風險理由
                 </Label>
                 <Textarea
                   id="residualRiskJustification"
                   name="residualRiskJustification"
-                  placeholder="Justification for residual risk..."
+                  placeholder="殘餘風險的合理性說明..."
                 />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label htmlFor="reviewCycle">Review Cycle</Label>
+                  <Label htmlFor="reviewCycle">覆核週期</Label>
                   <Input
                     id="reviewCycle"
                     name="reviewCycle"
@@ -238,7 +238,7 @@ export default function RiskRegisterPage() {
                   />
                 </div>
                 <div>
-                  <Label htmlFor="kriThreshold">KRI Threshold</Label>
+                  <Label htmlFor="kriThreshold">KRI 閾值</Label>
                   <Input
                     id="kriThreshold"
                     name="kriThreshold"
@@ -251,7 +251,7 @@ export default function RiskRegisterPage() {
               <DialogFooter>
                 <Button type="submit" disabled={creating}>
                   {creating && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Create
+                  建立
                 </Button>
               </DialogFooter>
             </form>
@@ -262,7 +262,7 @@ export default function RiskRegisterPage() {
       {/* Filters */}
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center gap-2">
-          <Label className="text-sm">Status:</Label>
+          <Label className="text-sm">狀態：</Label>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[140px]">
               <SelectValue />
@@ -277,7 +277,7 @@ export default function RiskRegisterPage() {
           </Select>
         </div>
         <div className="flex items-center gap-2">
-          <Label className="text-sm">Domain:</Label>
+          <Label className="text-sm">領域：</Label>
           <Select value={domainFilter} onValueChange={setDomainFilter}>
             <SelectTrigger className="w-[120px]">
               <SelectValue />
@@ -295,7 +295,7 @@ export default function RiskRegisterPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Risk Register Entries</CardTitle>
+          <CardTitle>風險登記項目</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -311,7 +311,7 @@ export default function RiskRegisterPage() {
                 className="mt-4"
                 onClick={() => void fetchRisks()}
               >
-                Retry
+                重試
               </Button>
             </div>
           ) : risks.length === 0 ? (
@@ -329,14 +329,14 @@ export default function RiskRegisterPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Risk ID</TableHead>
-                  <TableHead>Control</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>L</TableHead>
-                  <TableHead>I</TableHead>
-                  <TableHead>Score</TableHead>
+                  <TableHead>風險 ID</TableHead>
+                  <TableHead>控制點</TableHead>
+                  <TableHead>說明</TableHead>
+                  <TableHead>可能性</TableHead>
+                  <TableHead>影響度</TableHead>
+                  <TableHead>分數</TableHead>
                   <TableHead>KRI</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>狀態</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -394,56 +394,56 @@ export default function RiskRegisterPage() {
       <Dialog open={detailOpen} onOpenChange={setDetailOpen}>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
-            <DialogTitle>Risk Detail: {detailRisk?.riskId}</DialogTitle>
+            <DialogTitle>風險詳情：{detailRisk?.riskId}</DialogTitle>
           </DialogHeader>
           {detailRisk && (
             <div className="space-y-3 text-sm">
               <div>
-                <span className="font-medium">Description:</span>{" "}
+                <span className="font-medium">說明：</span>{" "}
                 {detailRisk.description}
               </div>
               <div>
-                <span className="font-medium">Linked Controls:</span>{" "}
+                <span className="font-medium">關聯控制點：</span>{" "}
                 {detailRisk.linkedControls}
               </div>
               <div className="grid grid-cols-3 gap-2">
                 <div>
-                  <span className="font-medium">Likelihood:</span>{" "}
+                  <span className="font-medium">可能性：</span>{" "}
                   {detailRisk.likelihood}
                 </div>
                 <div>
-                  <span className="font-medium">Impact:</span>{" "}
+                  <span className="font-medium">影響度：</span>{" "}
                   {detailRisk.impact}
                 </div>
                 <div>
-                  <span className="font-medium">Risk Score:</span>{" "}
+                  <span className="font-medium">風險分數：</span>{" "}
                   {detailRisk.riskScore}
                 </div>
               </div>
               <div>
-                <span className="font-medium">Mitigation:</span>{" "}
+                <span className="font-medium">緩解策略：</span>{" "}
                 {detailRisk.mitigationStrategy}
               </div>
               <div>
-                <span className="font-medium">Residual Justification:</span>{" "}
+                <span className="font-medium">殘餘風險理由：</span>{" "}
                 {detailRisk.residualRiskJustification}
               </div>
               <div className="grid grid-cols-2 gap-2">
                 <div>
-                  <span className="font-medium">KRI Threshold:</span>{" "}
+                  <span className="font-medium">KRI 閾值：</span>{" "}
                   {detailRisk.kriThreshold ?? "N/A"}
                 </div>
                 <div>
-                  <span className="font-medium">KRI Current:</span>{" "}
+                  <span className="font-medium">KRI 目前值：</span>{" "}
                   {detailRisk.kriLastValue ?? "N/A"}
                 </div>
               </div>
               <div>
-                <span className="font-medium">Review Cycle:</span>{" "}
+                <span className="font-medium">覆核週期：</span>{" "}
                 {detailRisk.reviewCycle}
               </div>
               <div>
-                <span className="font-medium">Status:</span>{" "}
+                <span className="font-medium">狀態：</span>{" "}
                 <Badge variant="outline" className="capitalize">
                   {detailRisk.status}
                 </Badge>

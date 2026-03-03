@@ -108,7 +108,7 @@ export default function EvidencePacksPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Evidence Packs</h1>
+        <h1 className="text-2xl font-bold">證據包</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
@@ -118,11 +118,11 @@ export default function EvidencePacksPage() {
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Generate Evidence Pack</DialogTitle>
+              <DialogTitle>產生證據包</DialogTitle>
             </DialogHeader>
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="period">Period (e.g. 2026-Q1)</Label>
+                <Label htmlFor="period">期間（例：2026-Q1）</Label>
                 <Input
                   id="period"
                   value={period}
@@ -132,7 +132,7 @@ export default function EvidencePacksPage() {
               </div>
               <Button onClick={handleCreate} disabled={creating} className="w-full">
                 <PackageCheck className="mr-1 h-4 w-4" />
-                {creating ? "Generating..." : "Generate Pack"}
+                {creating ? "產生中..." : "產生證據包"}
               </Button>
             </div>
           </DialogContent>
@@ -141,18 +141,18 @@ export default function EvidencePacksPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">All Evidence Packs</CardTitle>
+          <CardTitle className="text-base">所有證據包</CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Period</TableHead>
-                <TableHead className="w-[80px]">Artifacts</TableHead>
-                <TableHead className="w-[200px]">Pack Hash</TableHead>
-                <TableHead className="w-[140px]">Generated At</TableHead>
-                <TableHead className="w-[100px]">Status</TableHead>
-                <TableHead className="w-[100px]">Actions</TableHead>
+                <TableHead className="w-[100px]">期間</TableHead>
+                <TableHead className="w-[80px]">文件數</TableHead>
+                <TableHead className="w-[200px]">封存雜湊</TableHead>
+                <TableHead className="w-[140px]">產生時間</TableHead>
+                <TableHead className="w-[100px]">狀態</TableHead>
+                <TableHead className="w-[100px]">操作</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -205,7 +205,7 @@ export default function EvidencePacksPage() {
                     </TableCell>
                     <TableCell>
                       {pack.status === "signed" ? (
-                        <Badge variant="secondary">Signed</Badge>
+                        <Badge variant="secondary">已簽署</Badge>
                       ) : (
                         <Badge variant="outline">{pack.status}</Badge>
                       )}
@@ -219,7 +219,7 @@ export default function EvidencePacksPage() {
                           disabled={signing === pack.id}
                         >
                           <ShieldCheck className="mr-1 h-3 w-3" />
-                          {signing === pack.id ? "..." : "Sign"}
+                          {signing === pack.id ? "..." : "簽署"}
                         </Button>
                       )}
                     </TableCell>

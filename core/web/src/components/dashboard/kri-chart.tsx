@@ -22,7 +22,7 @@ export function KriChart({ data }: { data: KriDataPoint[] }) {
   if (data.length === 0) {
     return (
       <div className="flex items-center justify-center py-12 text-muted-foreground">
-        <p className="text-sm">No KRI data available</p>
+        <p className="text-sm">無 KRI 資料</p>
       </div>
     );
   }
@@ -52,8 +52,8 @@ export function KriChart({ data }: { data: KriDataPoint[] }) {
           }}
         />
         <Legend />
-        <Bar dataKey="threshold" name="Threshold" fill="hsl(var(--muted-foreground))" opacity={0.4} />
-        <Bar dataKey="current" name="Current">
+        <Bar dataKey="threshold" name="閾值" fill="hsl(var(--muted-foreground))" opacity={0.4} />
+        <Bar dataKey="current" name="目前值">
           {data.map((entry, index) => (
             <Cell
               key={`cell-${index}`}

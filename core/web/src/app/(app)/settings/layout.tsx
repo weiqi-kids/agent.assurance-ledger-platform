@@ -7,22 +7,22 @@ import { Bot, Cog, Settings, Users } from "lucide-react";
 
 const settingsNav = [
   {
-    title: "General",
+    title: "一般",
     href: "/settings",
     icon: Settings,
   },
   {
-    title: "Users",
+    title: "使用者",
     href: "/settings/users",
     icon: Users,
   },
   {
-    title: "System",
+    title: "系統",
     href: "/settings/system",
     icon: Cog,
   },
   {
-    title: "AI Providers",
+    title: "AI 供應商",
     href: "/settings/ai-providers",
     icon: Bot,
   },
@@ -38,9 +38,9 @@ export default function SettingsLayout({
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Settings</h1>
+        <h1 className="text-2xl font-bold">設定</h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Manage system configuration, AI providers, and integrations.
+          管理系統設定、AI 供應商及整合功能。
         </p>
       </div>
 

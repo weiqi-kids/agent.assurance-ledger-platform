@@ -82,7 +82,7 @@ export default function ComplaintsPage() {
       setComplaints(data.complaints);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to load complaints"
+        err instanceof Error ? err.message : "載入客訴失敗"
       );
     } finally {
       setLoading(false);
@@ -117,7 +117,7 @@ export default function ComplaintsPage() {
       void fetchComplaints();
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to create complaint"
+        err instanceof Error ? err.message : "建立客訴失敗"
       );
     } finally {
       setCreating(false);
@@ -127,7 +127,7 @@ export default function ComplaintsPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Complaints</h1>
+        <h1 className="text-2xl font-bold">客訴管理</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button>
@@ -137,34 +137,34 @@ export default function ComplaintsPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
-              <DialogTitle>File a Complaint</DialogTitle>
+              <DialogTitle>提報客訴</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <Label htmlFor="clientName">Complainant Name</Label>
+                <Label htmlFor="clientName">申訴人姓名</Label>
                 <Input
                   id="clientName"
                   name="clientName"
                   required
-                  placeholder="Client or stakeholder name"
+                  placeholder="客戶或利害關係人姓名"
                 />
               </div>
               <div>
-                <Label htmlFor="description">Description</Label>
+                <Label htmlFor="description">說明</Label>
                 <Textarea
                   id="description"
                   name="description"
                   required
-                  placeholder="Describe the complaint..."
+                  placeholder="描述客訴內容..."
                 />
               </div>
               <p className="text-xs text-muted-foreground">
-                A GitHub Issue will be automatically created for tracking.
+                系統將自動建立 GitHub Issue 進行追蹤。
               </p>
               <DialogFooter>
                 <Button type="submit" disabled={creating}>
                   {creating && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Create
+                  建立
                 </Button>
               </DialogFooter>
             </form>
@@ -175,7 +175,7 @@ export default function ComplaintsPage() {
       {/* Filters */}
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center gap-2">
-          <Label className="text-sm">Status:</Label>
+          <Label className="text-sm">狀態：</Label>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[160px]">
               <SelectValue />
@@ -193,7 +193,7 @@ export default function ComplaintsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Complaint Records</CardTitle>
+          <CardTitle>客訴紀錄</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -209,7 +209,7 @@ export default function ComplaintsPage() {
                 className="mt-4"
                 onClick={() => void fetchComplaints()}
               >
-                Retry
+                重試
               </Button>
             </div>
           ) : complaints.length === 0 ? (
@@ -228,11 +228,11 @@ export default function ComplaintsPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>ID</TableHead>
-                  <TableHead>Complainant</TableHead>
-                  <TableHead>Description</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>申訴人</TableHead>
+                  <TableHead>說明</TableHead>
+                  <TableHead>狀態</TableHead>
                   <TableHead>GitHub Issue</TableHead>
-                  <TableHead>Created At</TableHead>
+                  <TableHead>建立時間</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

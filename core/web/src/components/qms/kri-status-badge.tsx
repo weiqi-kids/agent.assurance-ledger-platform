@@ -16,7 +16,7 @@ export function KriStatusBadge({ current, threshold }: KriStatusBadgeProps) {
 
   return (
     <Badge variant={breached ? "destructive" : "secondary"}>
-      {breached ? "BREACHED" : "OK"}
+      {breached ? "超標" : "正常"}
     </Badge>
   );
 }

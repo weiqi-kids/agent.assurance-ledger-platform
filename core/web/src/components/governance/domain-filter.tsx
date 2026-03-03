@@ -9,13 +9,13 @@ import {
 } from "@/components/ui/select";
 
 const DOMAINS = [
-  { value: "all", label: "All Domains" },
-  { value: "AC", label: "AC - Access Control" },
-  { value: "CM", label: "CM - Change Management" },
-  { value: "PI", label: "PI - Processing Integrity" },
-  { value: "CF", label: "CF - Configuration" },
-  { value: "IR", label: "IR - Incident Response" },
-  { value: "MN", label: "MN - Monitoring" },
+  { value: "all", label: "所有領域" },
+  { value: "AC", label: "AC - 存取控制" },
+  { value: "CM", label: "CM - 變更管理" },
+  { value: "PI", label: "PI - 處理完整性" },
+  { value: "CF", label: "CF - 組態管理" },
+  { value: "IR", label: "IR - 事件回應" },
+  { value: "MN", label: "MN - 監控" },
 ];
 
 export function DomainFilter({

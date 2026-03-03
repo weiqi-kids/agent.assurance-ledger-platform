@@ -21,12 +21,12 @@ interface RaciEntry {
 }
 
 const ROLE_COLUMNS = [
-  { key: "system-admin", label: "System Admin" },
-  { key: "tech-lead", label: "Tech Lead" },
-  { key: "quality-manager", label: "Quality Mgr" },
-  { key: "engagement-partner", label: "Eng. Partner" },
-  { key: "auditor", label: "Auditor" },
-  { key: "viewer", label: "Viewer" },
+  { key: "system-admin", label: "系統管理員" },
+  { key: "tech-lead", label: "技術主管" },
+  { key: "quality-manager", label: "品質經理" },
+  { key: "engagement-partner", label: "業務合夥人" },
+  { key: "auditor", label: "審計師" },
+  { key: "viewer", label: "觀察者" },
 ];
 
 const RACI_STYLES: Record<
@@ -60,12 +60,12 @@ export default function RaciPage() {
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-4">
         <span className="text-sm text-muted-foreground">
-          Legend:
+          圖例：
         </span>
-        <Badge variant="default">R = Responsible</Badge>
-        <Badge variant="destructive">A = Accountable</Badge>
-        <Badge variant="secondary">C = Consulted</Badge>
-        <Badge variant="outline">I = Informed</Badge>
+        <Badge variant="default">R = 負責</Badge>
+        <Badge variant="destructive">A = 當責</Badge>
+        <Badge variant="secondary">C = 諮詢</Badge>
+        <Badge variant="outline">I = 知會</Badge>
       </div>
 
       <div className="rounded-md border">
@@ -73,9 +73,9 @@ export default function RaciPage() {
           <TableHeader>
             <TableRow>
               <TableHead className="sticky left-0 z-10 bg-background w-[100px]">
-                Control ID
+                控制點 ID
               </TableHead>
-              <TableHead className="w-[70px]">Domain</TableHead>
+              <TableHead className="w-[70px]">領域</TableHead>
               {ROLE_COLUMNS.map((col) => (
                 <TableHead key={col.key} className="text-center w-[110px]">
                   {col.label}
@@ -106,7 +106,7 @@ export default function RaciPage() {
                   colSpan={2 + ROLE_COLUMNS.length}
                   className="text-center text-muted-foreground"
                 >
-                  No RACI data available.
+                  無 RACI 資料。
                 </TableCell>
               </TableRow>
             ) : (

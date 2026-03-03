@@ -18,42 +18,42 @@ export interface NavItem {
 
 export const navItems: NavItem[] = [
   {
-    title: "Dashboard",
+    title: "儀表板",
     href: "/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: "Cases",
+    title: "案件",
     href: "/cases",
     icon: Briefcase,
     requiredPermission: "cases:read",
   },
   {
-    title: "Governance",
+    title: "治理",
     href: "/governance",
     icon: Shield,
     requiredPermission: "governance:read",
   },
   {
-    title: "Audit",
+    title: "審計",
     href: "/audit",
     icon: ClipboardCheck,
     requiredPermission: "audit:read",
   },
   {
-    title: "QMS",
+    title: "品質管理",
     href: "/qms",
     icon: ScrollText,
     requiredPermission: "governance:read",
   },
   {
-    title: "Chat",
+    title: "對話",
     href: "/chat",
     icon: MessageSquare,
     requiredPermission: "chat:use",
   },
   {
-    title: "Settings",
+    title: "設定",
     href: "/settings",
     icon: Settings,
     requiredPermission: "settings:read",

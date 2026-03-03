@@ -136,7 +136,7 @@ export default function FindingsPage() {
       fetchFindings();
     } catch (err) {
       setCreateError(
-        err instanceof Error ? err.message : "Failed to create finding"
+        err instanceof Error ? err.message : "建立發現失敗"
       );
     } finally {
       setCreating(false);
@@ -146,7 +146,7 @@ export default function FindingsPage() {
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Findings</h1>
+        <h1 className="text-2xl font-bold">發現事項</h1>
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button size="sm">
@@ -227,11 +227,11 @@ export default function FindingsPage() {
             <SelectValue placeholder="Severity" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Severities</SelectItem>
-            <SelectItem value="Critical">Critical</SelectItem>
-            <SelectItem value="High">High</SelectItem>
-            <SelectItem value="Medium">Medium</SelectItem>
-            <SelectItem value="Low">Low</SelectItem>
+            <SelectItem value="all">所有嚴重程度</SelectItem>
+            <SelectItem value="Critical">嚴重</SelectItem>
+            <SelectItem value="High">高</SelectItem>
+            <SelectItem value="Medium">中</SelectItem>
+            <SelectItem value="Low">低</SelectItem>
           </SelectContent>
         </Select>
 
@@ -243,16 +243,16 @@ export default function FindingsPage() {
             <SelectValue placeholder="Status" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="all">All Statuses</SelectItem>
-            <SelectItem value="open">Open</SelectItem>
-            <SelectItem value="investigating">Investigating</SelectItem>
-            <SelectItem value="remediated">Remediated</SelectItem>
-            <SelectItem value="closed">Closed</SelectItem>
+            <SelectItem value="all">所有狀態</SelectItem>
+            <SelectItem value="open">開放</SelectItem>
+            <SelectItem value="investigating">調查中</SelectItem>
+            <SelectItem value="remediated">已補救</SelectItem>
+            <SelectItem value="closed">已關閉</SelectItem>
           </SelectContent>
         </Select>
 
         <span className="text-sm text-muted-foreground">
-          {loading ? "Loading..." : `${findings.length} findings`}
+          {loading ? "載入中..." : `${findings.length} 筆發現`}
         </span>
       </div>
 
@@ -260,12 +260,12 @@ export default function FindingsPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[150px]">Finding ID</TableHead>
-              <TableHead className="w-[100px]">Control ID</TableHead>
-              <TableHead className="w-[100px]">Severity</TableHead>
-              <TableHead className="w-[120px]">Status</TableHead>
-              <TableHead className="w-[140px]">Detection Method</TableHead>
-              <TableHead className="w-[140px]">Created At</TableHead>
+              <TableHead className="w-[150px]">發現 ID</TableHead>
+              <TableHead className="w-[100px]">控制點 ID</TableHead>
+              <TableHead className="w-[100px]">嚴重程度</TableHead>
+              <TableHead className="w-[120px]">狀態</TableHead>
+              <TableHead className="w-[140px]">偵測方式</TableHead>
+              <TableHead className="w-[140px]">建立時間</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

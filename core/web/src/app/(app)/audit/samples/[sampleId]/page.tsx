@@ -57,9 +57,9 @@ export default function SampleDetailPage() {
       <div className="space-y-4">
         <Button variant="ghost" size="sm" onClick={() => router.back()}>
           <ArrowLeft className="mr-1 h-4 w-4" />
-          Back
+          返回
         </Button>
-        <p className="text-muted-foreground">Sample not found.</p>
+        <p className="text-muted-foreground">找不到抽樣記錄。</p>
       </div>
     );
   }
@@ -80,10 +80,10 @@ export default function SampleDetailPage() {
       <div className="flex items-center gap-4">
         <Button variant="ghost" size="sm" onClick={() => router.back()}>
           <ArrowLeft className="mr-1 h-4 w-4" />
-          Back
+          返回
         </Button>
         <h1 className="text-2xl font-bold">
-          Sample: {sample.period} / {sample.controlId}
+          抽樣：{sample.period} / {sample.controlId}
         </h1>
       </div>
 
@@ -91,32 +91,32 @@ export default function SampleDetailPage() {
         {/* Sample Metadata */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Sample Metadata</CardTitle>
+            <CardTitle className="text-base">抽樣資訊</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="grid grid-cols-2 gap-2 text-sm">
-              <span className="text-muted-foreground">Period</span>
+              <span className="text-muted-foreground">期間</span>
               <span>{sample.period}</span>
 
-              <span className="text-muted-foreground">Control ID</span>
+              <span className="text-muted-foreground">控制點 ID</span>
               <span>{sample.controlId}</span>
 
-              <span className="text-muted-foreground">Seed</span>
+              <span className="text-muted-foreground">種子碼</span>
               <span className="font-mono">{sample.seed}</span>
 
-              <span className="text-muted-foreground">Sample Size</span>
+              <span className="text-muted-foreground">樣本數</span>
               <span>{sample.sampleSize}</span>
 
-              <span className="text-muted-foreground">Operator</span>
+              <span className="text-muted-foreground">操作人員</span>
               <span>{sample.operator}</span>
 
-              <span className="text-muted-foreground">Program Version</span>
+              <span className="text-muted-foreground">程式版本</span>
               <span className="font-mono text-xs">{sample.programVersion}</span>
 
-              <span className="text-muted-foreground">Engine Version</span>
+              <span className="text-muted-foreground">引擎版本</span>
               <span>v{sample.samplingEngineVersion}</span>
 
-              <span className="text-muted-foreground">Created At</span>
+              <span className="text-muted-foreground">建立時間</span>
               <span>{new Date(sample.createdAt).toLocaleString()}</span>
             </div>
           </CardContent>
@@ -125,7 +125,7 @@ export default function SampleDetailPage() {
         {/* CSV Header Preview */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">CSV Metadata Header</CardTitle>
+            <CardTitle className="text-base">CSV 元資料標頭</CardTitle>
           </CardHeader>
           <CardContent>
             <pre className="rounded-md bg-muted p-3 text-xs font-mono overflow-x-auto">
@@ -138,7 +138,7 @@ export default function SampleDetailPage() {
       {/* Population Query */}
       <Card>
         <CardHeader>
-          <CardTitle className="text-base">Population Query</CardTitle>
+          <CardTitle className="text-base">母體查詢</CardTitle>
         </CardHeader>
         <CardContent>
           <p className="text-sm">{sample.populationQuery}</p>

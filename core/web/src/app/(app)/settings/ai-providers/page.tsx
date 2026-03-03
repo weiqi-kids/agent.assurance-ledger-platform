@@ -204,14 +204,14 @@ export default function AIProvidersPage() {
           ...prev,
           [id]: {
             success: false,
-            message: data.error || "Connection failed",
+            message: data.error || "連線失敗",
           },
         }));
       }
     } catch {
       setTestResults((prev) => ({
         ...prev,
-        [id]: { success: false, message: "Network error" },
+        [id]: { success: false, message: "網路錯誤" },
       }));
     } finally {
       setTestingId(null);
@@ -245,7 +245,7 @@ export default function AIProvidersPage() {
   const renderForm = () => (
     <div className="space-y-4 py-4">
       <div className="space-y-2">
-        <Label htmlFor="providerType">Provider Type</Label>
+        <Label htmlFor="providerType">供應商類型</Label>
         <Select
           value={formData.providerType}
           onValueChange={(v) =>
@@ -253,7 +253,7 @@ export default function AIProvidersPage() {
           }
         >
           <SelectTrigger>
-            <SelectValue placeholder="Select type" />
+            <SelectValue placeholder="選擇類型" />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="anthropic">Anthropic</SelectItem>
@@ -264,7 +264,7 @@ export default function AIProvidersPage() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="name">Display Name</Label>
+        <Label htmlFor="name">顯示名稱</Label>
         <Input
           id="name"
           value={formData.name}
@@ -276,7 +276,7 @@ export default function AIProvidersPage() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="model">Model ID</Label>
+        <Label htmlFor="model">模型 ID</Label>
         <Input
           id="model"
           value={formData.model}
@@ -290,7 +290,7 @@ export default function AIProvidersPage() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="apiEndpoint">API Endpoint (optional)</Label>
+        <Label htmlFor="apiEndpoint">API 端點（選填）</Label>
         <Input
           id="apiEndpoint"
           value={formData.apiEndpoint}
@@ -300,12 +300,12 @@ export default function AIProvidersPage() {
               apiEndpoint: e.target.value,
             }))
           }
-          placeholder="Custom API endpoint URL"
+          placeholder="自訂 API 端點網址"
         />
       </div>
 
       <div className="flex items-center gap-3">
-        <Label htmlFor="enabled">Enabled</Label>
+        <Label htmlFor="enabled">啟用</Label>
         <button
           type="button"
           role="switch"
@@ -339,10 +339,9 @@ export default function AIProvidersPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">AI Providers</h2>
+          <h2 className="text-lg font-semibold">AI 供應商</h2>
           <p className="text-sm text-muted-foreground">
-            Configure AI model providers. API keys are set via environment
-            variables.
+            設定 AI 模型供應商。API 金鑰透過環境變數設定。
           </p>
         </div>
 
@@ -353,16 +352,14 @@ export default function AIProvidersPage() {
               onClick={() => setFormData(defaultFormData)}
             >
               <Plus className="h-4 w-4" />
-              Add Provider
+              新增供應商
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Add AI Provider</DialogTitle>
+              <DialogTitle>新增 AI 供應商</DialogTitle>
               <DialogDescription>
-                Configure a new AI model provider. API keys must be set as
-                environment variables (ANTHROPIC_API_KEY, OPENAI_API_KEY,
-                GOOGLE_AI_API_KEY).
+                設定新的 AI 模型供應商。API 金鑰須設為環境變數（ANTHROPIC_API_KEY、OPENAI_API_KEY、GOOGLE_AI_API_KEY）。
               </DialogDescription>
             </DialogHeader>
             {renderForm()}
@@ -371,7 +368,7 @@ export default function AIProvidersPage() {
                 variant="outline"
                 onClick={() => setIsAddOpen(false)}
               >
-                Cancel
+                取消
               </Button>
               <Button
                 onClick={handleAdd}
@@ -382,7 +379,7 @@ export default function AIProvidersPage() {
                 {isSaving && (
                   <Loader2 className="h-4 w-4 animate-spin" />
                 )}
-                Add Provider
+                新增供應商
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -401,9 +398,9 @@ export default function AIProvidersPage() {
       >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit AI Provider</DialogTitle>
+            <DialogTitle>編輯 AI 供應商</DialogTitle>
             <DialogDescription>
-              Update the provider configuration.
+              更新供應商設定。
             </DialogDescription>
           </DialogHeader>
           {renderForm()}
@@ -415,7 +412,7 @@ export default function AIProvidersPage() {
                 setFormData(defaultFormData);
               }}
             >
-              Cancel
+              取消
             </Button>
             <Button
               onClick={handleEdit}
@@ -424,7 +421,7 @@ export default function AIProvidersPage() {
               {isSaving && (
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
-              Save Changes
+              儲存變更
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -433,21 +430,21 @@ export default function AIProvidersPage() {
       {/* Table */}
       {providers.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-md border py-12 text-center text-muted-foreground">
-          <p className="text-lg font-medium">No providers configured</p>
+          <p className="text-lg font-medium">尚無供應商</p>
           <p className="mt-1 text-sm">
-            Add an AI provider to start using the chat feature.
+            新增 AI 供應商以開始使用對話功能。
           </p>
         </div>
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Name</TableHead>
-              <TableHead>Type</TableHead>
-              <TableHead>Model</TableHead>
-              <TableHead>Status</TableHead>
-              <TableHead>Test</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>名稱</TableHead>
+              <TableHead>類型</TableHead>
+              <TableHead>模型</TableHead>
+              <TableHead>狀態</TableHead>
+              <TableHead>測試</TableHead>
+              <TableHead className="text-right">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -478,7 +475,7 @@ export default function AIProvidersPage() {
                           : "secondary"
                       }
                     >
-                      {provider.enabled === 1 ? "Enabled" : "Disabled"}
+                      {provider.enabled === 1 ? "已啟用" : "已停用"}
                     </Badge>
                   </button>
                 </TableCell>

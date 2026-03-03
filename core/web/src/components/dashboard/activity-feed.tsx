@@ -26,12 +26,12 @@ const eventIconMap: Record<string, LucideIcon> = {
 };
 
 const eventLabelMap: Record<string, string> = {
-  CASE_CREATED: "Case created",
-  CASE_UPDATED: "Case updated",
-  CASE_STATUS_CHANGED: "Status changed",
-  CASE_DELETED: "Case deleted",
-  FINDING_ADDED: "Finding added",
-  EVIDENCE_UPLOADED: "Evidence uploaded",
+  CASE_CREATED: "案件建立",
+  CASE_UPDATED: "案件更新",
+  CASE_STATUS_CHANGED: "狀態變更",
+  CASE_DELETED: "案件刪除",
+  FINDING_ADDED: "新增發現",
+  EVIDENCE_UPLOADED: "上傳證據",
 };
 
 function formatRelativeTime(timestamp: string): string {
@@ -41,14 +41,14 @@ function formatRelativeTime(timestamp: string): string {
     const diffMs = now.getTime() - date.getTime();
     const diffMins = Math.floor(diffMs / 60000);
 
-    if (diffMins < 1) return "just now";
-    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffMins < 1) return "剛剛";
+    if (diffMins < 60) return `${diffMins} 分鐘前`;
 
     const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours}h ago`;
+    if (diffHours < 24) return `${diffHours} 小時前`;
 
     const diffDays = Math.floor(diffHours / 24);
-    if (diffDays < 30) return `${diffDays}d ago`;
+    if (diffDays < 30) return `${diffDays} 天前`;
 
     return date.toLocaleDateString("en-US", {
       month: "short",
@@ -69,7 +69,7 @@ export function ActivityFeed({ items }: { items: ActivityItem[] }) {
     return (
       <div className="flex flex-col items-center justify-center py-8 text-center text-muted-foreground">
         <Clock className="mb-2 h-8 w-8" />
-        <p className="text-sm">No recent activity</p>
+        <p className="text-sm">無近期活動</p>
       </div>
     );
   }

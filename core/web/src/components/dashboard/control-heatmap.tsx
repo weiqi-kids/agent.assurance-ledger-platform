@@ -10,12 +10,12 @@ interface DomainHealth {
 }
 
 const domainNameMap: Record<string, string> = {
-  AC: "Access Control",
-  CM: "Change Management",
-  PI: "Process Integrity",
-  CF: "Client Files",
-  IR: "Incident Response",
-  MN: "Monitoring",
+  AC: "存取控制",
+  CM: "變更管理",
+  PI: "處理完整性",
+  CF: "客戶檔案",
+  IR: "事件回應",
+  MN: "監控",
 };
 
 function getHealthColor(item: DomainHealth): string {
@@ -25,9 +25,9 @@ function getHealthColor(item: DomainHealth): string {
 }
 
 function getHealthLabel(item: DomainHealth): string {
-  if (item.highCriticalFindings > 0) return "Critical/High issues";
-  if (item.mediumFindings > 0) return "Medium issues";
-  return "Healthy";
+  if (item.highCriticalFindings > 0) return "嚴重/高風險問題";
+  if (item.mediumFindings > 0) return "中度風險問題";
+  return "健康";
 }
 
 function getHealthTextColor(item: DomainHealth): string {
@@ -69,7 +69,7 @@ export function ControlHeatmap({ data }: { data: DomainHealth[] }) {
           <div className="mt-2 text-lg font-semibold">
             {item.controlCount}
           </div>
-          <div className="text-xs text-muted-foreground">controls</div>
+          <div className="text-xs text-muted-foreground">個控制點</div>
           <div
             className={cn("mt-1 text-xs font-medium", getHealthTextColor(item))}
           >

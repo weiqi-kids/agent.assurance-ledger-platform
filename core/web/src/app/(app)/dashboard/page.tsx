@@ -153,7 +153,7 @@ export default function DashboardPage() {
   if (loading) {
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Dashboard</h1>
+        <h1 className="text-2xl font-bold">儀表板</h1>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
             <Card key={i}>
@@ -176,18 +176,18 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+      <h1 className="text-2xl font-bold">儀表板</h1>
 
       {/* Summary Cards */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
-          title="Cases"
+          title="案件"
           value={stats?.cases.total ?? 0}
           icon={Briefcase}
           description={
             stats?.cases.byStatus.active
-              ? `${stats.cases.byStatus.active} active`
-              : "No active cases"
+              ? `${stats.cases.byStatus.active} 進行中`
+              : "無進行中案件"
           }
         >
           {stats && Object.keys(stats.cases.byStatus).length > 0 && (
@@ -207,7 +207,7 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Open Findings</CardTitle>
+            <CardTitle className="text-sm font-medium">未結發現</CardTitle>
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -216,8 +216,8 @@ export default function DashboardPage() {
             </div>
             <p className="text-xs text-muted-foreground">
               {stats?.findings.totalOpen === 0
-                ? "All clear"
-                : "Requires attention"}
+                ? "全數正常"
+                : "需要關注"}
             </p>
             {stats && (
               <SeverityDots bySeverity={stats.findings.bySeverity} />
@@ -227,7 +227,7 @@ export default function DashboardPage() {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Control Health</CardTitle>
+            <CardTitle className="text-sm font-medium">控制點健康度</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -235,7 +235,7 @@ export default function DashboardPage() {
               {stats?.controls.passRate ?? 100}%
             </div>
             <p className="text-xs text-muted-foreground">
-              {stats?.controls.total ?? 0} controls total
+              {stats?.controls.total ?? 0} 個控制點
             </p>
             <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted">
               <div
@@ -245,20 +245,20 @@ export default function DashboardPage() {
             </div>
             {stats && stats.controls.withOpenFindings > 0 && (
               <p className="mt-1 text-xs text-destructive">
-                {stats.controls.withOpenFindings} with open findings
+                {stats.controls.withOpenFindings} 項有未結發現
               </p>
             )}
           </CardContent>
         </Card>
 
         <StatCard
-          title="Evidence Packs"
+          title="證據包"
           value={stats?.evidencePacks.total ?? 0}
           icon={ClipboardCheck}
           description={
             stats?.evidencePacks.latest
               ? `Latest: ${stats.evidencePacks.latest.period}`
-              : "No packs generated"
+              : "尚未產生"
           }
         >
           {stats?.evidencePacks.latest && (
@@ -269,7 +269,7 @@ export default function DashboardPage() {
                 }
                 className="text-xs"
               >
-                {stats.evidencePacks.latest.signed ? "Signed" : "Unsigned"}
+                {stats.evidencePacks.latest.signed ? "已簽署" : "未簽署"}
               </Badge>
               <Badge variant="outline" className="text-xs">
                 {formatDate(stats.evidencePacks.latest.generatedAt)}
@@ -311,7 +311,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <Button asChild size="sm">
-              <Link href="/audit/findings">Go to Findings</Link>
+              <Link href="/audit/findings">前往發現事項</Link>
             </Button>
           </CardContent>
         </Card>
@@ -329,7 +329,7 @@ export default function DashboardPage() {
               </p>
             </div>
             <Button asChild size="sm">
-              <Link href="/audit/evidence-packs">Go to Evidence Packs</Link>
+              <Link href="/audit/evidence-packs">前往證據包</Link>
             </Button>
           </CardContent>
         </Card>
@@ -338,7 +338,7 @@ export default function DashboardPage() {
       {/* Control Status Heatmap */}
       <Card>
         <CardHeader>
-          <CardTitle>Control Status by Domain</CardTitle>
+          <CardTitle>各領域控制點狀態</CardTitle>
         </CardHeader>
         <CardContent>
           <ControlHeatmap data={heatmap} />
@@ -348,7 +348,7 @@ export default function DashboardPage() {
       {/* KRI Trend Chart */}
       <Card>
         <CardHeader>
-          <CardTitle>Key Risk Indicators (KRI) by Domain</CardTitle>
+          <CardTitle>各領域關鍵風險指標 (KRI)</CardTitle>
         </CardHeader>
         <CardContent>
           <KriChart data={kriData} />
@@ -358,7 +358,7 @@ export default function DashboardPage() {
       {/* Recent Activity Feed */}
       <Card>
         <CardHeader>
-          <CardTitle>Recent Activity</CardTitle>
+          <CardTitle>近期活動</CardTitle>
         </CardHeader>
         <CardContent>
           <ActivityFeed items={activity.slice(0, 10)} />

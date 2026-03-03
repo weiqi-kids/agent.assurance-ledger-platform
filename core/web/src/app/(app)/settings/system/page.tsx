@@ -51,18 +51,18 @@ const WELL_KNOWN_SETTINGS: Record<
   { label: string; description: string; icon: React.ReactNode }
 > = {
   audit_period: {
-    label: "Audit Period",
-    description: "Current audit period (e.g. 2025-Q1)",
+    label: "審計期間",
+    description: "目前審計期間（例如 2025-Q1）",
     icon: <Calendar className="h-4 w-4" />,
   },
   gpg_key_id: {
-    label: "GPG Key ID",
-    description: "Primary GPG key used for commit signing",
+    label: "GPG 金鑰 ID",
+    description: "用於提交簽署的主要 GPG 金鑰",
     icon: <KeyRound className="h-4 w-4" />,
   },
   organization_name: {
-    label: "Organization Name",
-    description: "Name of the organization for reports",
+    label: "組織名稱",
+    description: "用於報告的組織名稱",
     icon: null,
   },
 };
@@ -88,12 +88,12 @@ export default function SystemSettingsPage() {
         const data = await res.json();
         setSettings(data.settings);
       } else if (res.status === 403) {
-        setError("You do not have permission to view system settings.");
+        setError("您沒有檢視系統設定的權限。");
       } else {
-        setError("Failed to load system settings.");
+        setError("載入系統設定失敗。");
       }
     } catch {
-      setError("Failed to connect to the server.");
+      setError("無法連線至伺服器。");
     } finally {
       setIsLoading(false);
     }
@@ -106,10 +106,10 @@ export default function SystemSettingsPage() {
         const data = await res.json();
         setGithubStatus(data);
       } else {
-        setGithubStatus({ connected: false, error: "Failed to check status" });
+        setGithubStatus({ connected: false, error: "無法檢查連線狀態" });
       }
     } catch {
-      setGithubStatus({ connected: false, error: "Network error" });
+      setGithubStatus({ connected: false, error: "網路錯誤" });
     } finally {
       setIsCheckingGithub(false);
     }
@@ -191,9 +191,9 @@ export default function SystemSettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-lg font-semibold">System Configuration</h2>
+        <h2 className="text-lg font-semibold">系統設定</h2>
         <p className="text-sm text-muted-foreground">
-          Manage system settings, GitHub integration, and GPG configuration.
+          管理系統設定、GitHub 整合及 GPG 組態。
         </p>
       </div>
 
@@ -203,10 +203,10 @@ export default function SystemSettingsPage() {
           <div className="space-y-1">
             <CardTitle className="flex items-center gap-2 text-base">
               <Github className="h-5 w-5" />
-              GitHub App Connection
+              GitHub App 連線
             </CardTitle>
             <CardDescription>
-              GitHub App provides auditable, scoped access to the repository.
+              GitHub App 提供可審計、範圍限定的儲存庫存取權限。
             </CardDescription>
           </div>
           {isCheckingGithub ? (
@@ -214,7 +214,7 @@ export default function SystemSettingsPage() {
           ) : githubStatus?.connected ? (
             <Badge className="gap-1 bg-green-100 text-green-800 hover:bg-green-100">
               <CheckCircle className="h-3 w-3" />
-              Connected
+              已連線
             </Badge>
           ) : (
             <Badge
@@ -222,18 +222,18 @@ export default function SystemSettingsPage() {
               className="gap-1"
             >
               <XCircle className="h-3 w-3" />
-              Disconnected
+              未連線
             </Badge>
           )}
         </CardHeader>
         <CardContent>
           {isCheckingGithub ? (
             <p className="text-sm text-muted-foreground">
-              Checking connection...
+              檢查連線中...
             </p>
           ) : githubStatus?.connected ? (
             <p className="text-sm text-muted-foreground">
-              Repository:{" "}
+              儲存庫：{" "}
               <span className="font-mono font-medium text-foreground">
                 {githubStatus.repository}
               </span>
@@ -241,7 +241,7 @@ export default function SystemSettingsPage() {
           ) : (
             <p className="text-sm text-destructive">
               {githubStatus?.error ??
-                "Unable to connect. Check environment variables."}
+                "無法連線。請檢查環境變數。"}
             </p>
           )}
         </CardContent>
@@ -252,25 +252,24 @@ export default function SystemSettingsPage() {
         <CardHeader className="pb-2">
           <CardTitle className="flex items-center gap-2 text-base">
             <KeyRound className="h-5 w-5" />
-            GPG Signing
+            GPG 簽署
           </CardTitle>
           <CardDescription>
-            All commits to the main branch must be GPG signed. The GPG
-            Signature Verification workflow enforces this as a merge gate.
+            所有提交至主分支的變更均須以 GPG 簽署。GPG 簽章驗證工作流程將此作為合併閘控。
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="text-sm text-muted-foreground">
             <p>
-              GPG signing is configured per developer via{" "}
+              GPG 簽署依開發者透過{" "}
               <code className="rounded bg-muted px-1 py-0.5 text-xs">
                 git config user.signingkey
               </code>
-              . The CI workflow{" "}
+              {" "}個別設定。CI 工作流程{" "}
               <code className="rounded bg-muted px-1 py-0.5 text-xs">
                 gpg-verify.yml
               </code>{" "}
-              verifies all PR commits are signed before allowing merge.
+              會在允許合併前驗證所有 PR 提交均已簽署。
             </p>
           </div>
         </CardContent>
@@ -280,20 +279,20 @@ export default function SystemSettingsPage() {
       <Card>
         <CardHeader className="flex flex-row items-center justify-between pb-2">
           <div className="space-y-1">
-            <CardTitle className="text-base">Settings</CardTitle>
+            <CardTitle className="text-base">設定值</CardTitle>
             <CardDescription>
-              Key-value configuration for the platform.
+              平台鍵值設定。
             </CardDescription>
           </div>
           <Button size="sm" variant="outline" onClick={() => setIsAddOpen(true)}>
             <Plus className="h-4 w-4" />
-            Add Setting
+            新增設定
           </Button>
         </CardHeader>
         <CardContent>
           {settings.length === 0 ? (
             <p className="py-4 text-center text-sm text-muted-foreground">
-              No settings configured yet. Add a setting to get started.
+              尚無設定值。新增設定以開始使用。
             </p>
           ) : (
             <div className="space-y-3">
@@ -340,14 +339,14 @@ export default function SystemSettingsPage() {
                             ) : (
                               <Save className="h-3 w-3" />
                             )}
-                            Save
+                            儲存
                           </Button>
                           <Button
                             size="sm"
                             variant="ghost"
                             onClick={() => setEditingKey(null)}
                           >
-                            Cancel
+                            取消
                           </Button>
                         </div>
                       ) : (
@@ -377,14 +376,14 @@ export default function SystemSettingsPage() {
       <Dialog open={isAddOpen} onOpenChange={setIsAddOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add System Setting</DialogTitle>
+            <DialogTitle>新增系統設定</DialogTitle>
             <DialogDescription>
-              Add a new key-value configuration setting.
+              新增鍵值設定項目。
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="setting-key">Key</Label>
+              <Label htmlFor="setting-key">鍵</Label>
               <Input
                 id="setting-key"
                 value={newKey}
@@ -393,7 +392,7 @@ export default function SystemSettingsPage() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="setting-value">Value</Label>
+              <Label htmlFor="setting-value">值</Label>
               <Input
                 id="setting-value"
                 value={newValue}
@@ -404,14 +403,14 @@ export default function SystemSettingsPage() {
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsAddOpen(false)}>
-              Cancel
+              取消
             </Button>
             <Button
               onClick={handleAdd}
               disabled={!newKey || !newValue || isSaving}
             >
               {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
-              Add Setting
+              新增設定
             </Button>
           </DialogFooter>
         </DialogContent>

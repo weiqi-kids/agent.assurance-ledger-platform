@@ -41,12 +41,12 @@ interface User {
 }
 
 const ROLES = [
-  { value: "engagement-partner", label: "Engagement Partner" },
-  { value: "quality-manager", label: "Quality Manager" },
-  { value: "tech-lead", label: "Tech Lead" },
-  { value: "system-admin", label: "System Admin" },
-  { value: "auditor", label: "Auditor" },
-  { value: "viewer", label: "Viewer" },
+  { value: "engagement-partner", label: "業務合夥人" },
+  { value: "quality-manager", label: "品質經理" },
+  { value: "tech-lead", label: "技術主管" },
+  { value: "system-admin", label: "系統管理員" },
+  { value: "auditor", label: "審計師" },
+  { value: "viewer", label: "觀察者" },
 ];
 
 const ROLE_COLORS: Record<string, "default" | "secondary" | "outline"> = {
@@ -91,12 +91,12 @@ export default function UsersSettingsPage() {
         const data = await res.json();
         setUsers(data.users);
       } else if (res.status === 403) {
-        setError("You do not have permission to manage users.");
+        setError("您沒有管理使用者的權限。");
       } else {
-        setError("Failed to load users.");
+        setError("載入使用者失敗。");
       }
     } catch {
-      setError("Failed to connect to the server.");
+      setError("無法連線至伺服器。");
     } finally {
       setIsLoading(false);
     }
@@ -179,9 +179,9 @@ export default function UsersSettingsPage() {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-lg font-semibold">Users</h2>
+          <h2 className="text-lg font-semibold">使用者</h2>
           <p className="text-sm text-muted-foreground">
-            Manage user accounts and role assignments.
+            管理使用者帳號及角色指派。
           </p>
         </div>
 
@@ -189,16 +189,14 @@ export default function UsersSettingsPage() {
           <DialogTrigger asChild>
             <Button size="sm">
               <UserPlus className="h-4 w-4" />
-              Invite User
+              邀請使用者
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Invite User</DialogTitle>
+              <DialogTitle>邀請使用者</DialogTitle>
               <DialogDescription>
-                User invitations are not yet available. Users can sign in via
-                Google or LINE OAuth. After first login, an admin can assign
-                their role here.
+                使用者邀請功能尚未開放。使用者可透過 Google 或 LINE OAuth 登入。首次登入後，管理員可在此指派角色。
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -206,7 +204,7 @@ export default function UsersSettingsPage() {
                 variant="outline"
                 onClick={() => setIsInviteOpen(false)}
               >
-                Close
+                關閉
               </Button>
             </DialogFooter>
           </DialogContent>
@@ -215,20 +213,20 @@ export default function UsersSettingsPage() {
 
       {users.length === 0 ? (
         <div className="flex flex-col items-center justify-center rounded-md border py-12 text-center text-muted-foreground">
-          <p className="text-lg font-medium">No users found</p>
+          <p className="text-lg font-medium">尚無使用者</p>
           <p className="mt-1 text-sm">
-            Users will appear here after they sign in for the first time.
+            使用者首次登入後將顯示於此。
           </p>
         </div>
       ) : (
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>User</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Role</TableHead>
-              <TableHead>Tenant</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>使用者</TableHead>
+              <TableHead>電子郵件</TableHead>
+              <TableHead>角色</TableHead>
+              <TableHead>租戶</TableHead>
+              <TableHead className="text-right">操作</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -250,7 +248,7 @@ export default function UsersSettingsPage() {
                         </AvatarFallback>
                       </Avatar>
                       <span className="font-medium">
-                        {user.name ?? "Unnamed"}
+                        {user.name ?? "未命名"}
                       </span>
                     </div>
                   </TableCell>
@@ -306,7 +304,7 @@ export default function UsersSettingsPage() {
                         ) : (
                           <Save className="h-3 w-3" />
                         )}
-                        Save
+                        儲存
                       </Button>
                     )}
                   </TableCell>

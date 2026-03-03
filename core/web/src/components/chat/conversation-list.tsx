@@ -32,7 +32,7 @@ export function ConversationList({
   return (
     <div className="flex h-full flex-col border-r">
       <div className="flex items-center justify-between border-b p-3">
-        <h2 className="text-sm font-semibold">Conversations</h2>
+        <h2 className="text-sm font-semibold">對話列表</h2>
         <Button variant="ghost" size="icon-xs" onClick={onCreate}>
           <Plus className="h-4 w-4" />
         </Button>
@@ -42,7 +42,7 @@ export function ConversationList({
         {conversations.length === 0 ? (
           <div className="flex flex-col items-center justify-center p-6 text-center text-muted-foreground">
             <MessageSquare className="mb-2 h-8 w-8" />
-            <p className="text-xs">No conversations yet</p>
+            <p className="text-xs">尚無對話</p>
           </div>
         ) : (
           <div className="space-y-0.5 p-1">
@@ -59,7 +59,7 @@ export function ConversationList({
                 <MessageSquare className="mt-0.5 h-4 w-4 shrink-0 text-muted-foreground" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate font-medium">
-                    {conv.title || "Untitled"}
+                    {conv.title || "未命名"}
                   </p>
                   {conv.lastMessage && (
                     <p className="truncate text-xs text-muted-foreground">

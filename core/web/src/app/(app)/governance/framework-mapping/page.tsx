@@ -51,7 +51,7 @@ export default function FrameworkMappingPage() {
   return (
     <div className="space-y-4">
       <div className="flex flex-wrap items-center gap-2">
-        <span className="text-sm text-muted-foreground">Frameworks:</span>
+        <span className="text-sm text-muted-foreground">框架：</span>
         <FrameworkBadge framework="SOC1" />
         <FrameworkBadge framework="ISQM1" />
         <FrameworkBadge framework="ISO9001" />
@@ -61,12 +61,12 @@ export default function FrameworkMappingPage() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[100px]">Control ID</TableHead>
-              <TableHead className="w-[70px]">Domain</TableHead>
-              <TableHead>SOC1 Objective</TableHead>
-              <TableHead>ISQM1 Paragraph</TableHead>
-              <TableHead>ISO 9001 Clause</TableHead>
-              <TableHead className="w-[60px]">Detail</TableHead>
+              <TableHead className="w-[100px]">控制點 ID</TableHead>
+              <TableHead className="w-[70px]">領域</TableHead>
+              <TableHead>SOC1 目標</TableHead>
+              <TableHead>ISQM1 段落</TableHead>
+              <TableHead>ISO 9001 條款</TableHead>
+              <TableHead className="w-[60px]">詳情</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -99,7 +99,7 @@ export default function FrameworkMappingPage() {
                   colSpan={6}
                   className="text-center text-muted-foreground"
                 >
-                  No framework mapping data available.
+                  無框架映射資料。
                 </TableCell>
               </TableRow>
             ) : (
@@ -130,10 +130,10 @@ export default function FrameworkMappingPage() {
                       <DialogContent>
                         <DialogHeader>
                           <DialogTitle>
-                            {mapping.controlId} Framework Mapping
+                            {mapping.controlId} 框架映射
                           </DialogTitle>
                           <DialogDescription>
-                            Cross-framework mapping explanation
+                            跨框架映射說明
                           </DialogDescription>
                         </DialogHeader>
                         <div className="space-y-4">
@@ -157,7 +157,7 @@ export default function FrameworkMappingPage() {
                           </div>
                           <div>
                             <label className="text-xs font-medium uppercase text-muted-foreground">
-                              Explanation
+                              說明
                             </label>
                             <p className="mt-1 text-sm">
                               {mapping.explanation}

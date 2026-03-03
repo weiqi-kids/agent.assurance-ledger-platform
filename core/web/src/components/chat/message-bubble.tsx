@@ -51,7 +51,7 @@ export function MessageBubble({
         {isUser && (
           <div className="flex items-center gap-1 text-xs text-muted-foreground">
             <User className="h-3 w-3" />
-            <span>You</span>
+            <span>你</span>
           </div>
         )}
 

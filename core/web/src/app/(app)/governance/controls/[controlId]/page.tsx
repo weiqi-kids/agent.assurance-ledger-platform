@@ -107,12 +107,12 @@ export default function ControlDetailPage({
         <Link href="/governance/controls">
           <Button variant="ghost" size="sm">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Controls
+            返回控制點
           </Button>
         </Link>
         <Card>
           <CardContent className="py-8 text-center text-muted-foreground">
-            {error ?? "Control not found"}
+            {error ?? "找不到控制點"}
           </CardContent>
         </Card>
       </div>
@@ -129,7 +129,7 @@ export default function ControlDetailPage({
         <Link href="/governance/controls">
           <Button variant="ghost" size="sm">
             <ArrowLeft className="mr-2 h-4 w-4" />
-            Back to Controls
+            返回控制點
           </Button>
         </Link>
         <div className="flex items-center gap-2">
@@ -143,31 +143,31 @@ export default function ControlDetailPage({
         {/* Card 1: Basic Info */}
         <Card>
           <CardHeader>
-            <CardTitle>Basic Info</CardTitle>
-            <CardDescription>Control identification and purpose</CardDescription>
+            <CardTitle>基本資訊</CardTitle>
+            <CardDescription>控制點識別與用途</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Control ID
+                控制點 ID
               </label>
               <p className="text-sm">{control.controlId}</p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Domain
+                領域
               </label>
               <p className="text-sm">{control.domain}</p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Control Statement
+                控制描述
               </label>
               <p className="text-sm">{control.controlStatement}</p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Purpose
+                用途
               </label>
               <p className="text-sm">{control.purpose}</p>
             </div>
@@ -177,21 +177,21 @@ export default function ControlDetailPage({
         {/* Card 2: Ownership */}
         <Card>
           <CardHeader>
-            <CardTitle>Ownership</CardTitle>
+            <CardTitle>權責</CardTitle>
             <CardDescription>
-              Responsible and backup roles for this control
+              此控制點的負責人與代理人
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Owner Role
+                負責角色
               </label>
               <p className="text-sm">{control.ownerRole}</p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Backup Owner Role
+                代理角色
               </label>
               <p className="text-sm">{control.backupOwnerRole}</p>
             </div>
@@ -201,21 +201,21 @@ export default function ControlDetailPage({
         {/* Card 3: Testing */}
         <Card>
           <CardHeader>
-            <CardTitle>Testing</CardTitle>
+            <CardTitle>測試</CardTitle>
             <CardDescription>
-              Frequency, population, and failure criteria
+              頻率、母體及失敗標準
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Frequency
+                頻率
               </label>
               <p className="text-sm">{control.frequency}</p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Risk Tier
+                風險層級
               </label>
               <div className="mt-1">
                 <RiskTierBadge tier={control.riskTier} />
@@ -223,19 +223,19 @@ export default function ControlDetailPage({
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Population Definition
+                母體定義
               </label>
               <p className="text-sm">{control.populationDefinition}</p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Sample Unit
+                樣本單位
               </label>
               <p className="text-sm">{control.sampleUnit}</p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Failure Criteria
+                失敗標準
               </label>
               <p className="text-sm">{control.failureCriteria}</p>
             </div>
@@ -245,15 +245,15 @@ export default function ControlDetailPage({
         {/* Card 4: Evidence */}
         <Card>
           <CardHeader>
-            <CardTitle>Evidence</CardTitle>
+            <CardTitle>證據</CardTitle>
             <CardDescription>
-              Evidence types, paths, and system components
+              證據類型、路徑及系統元件
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Evidence Types
+                證據類型
               </label>
               <div className="mt-1 flex flex-wrap gap-1">
                 {evidenceTypes.map((t) => (
@@ -265,7 +265,7 @@ export default function ControlDetailPage({
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Evidence Path Convention
+                證據路徑慣例
               </label>
               <p className="font-mono text-sm">
                 {control.evidencePathConvention}
@@ -273,7 +273,7 @@ export default function ControlDetailPage({
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                System Components
+                系統元件
               </label>
               <div className="mt-1 flex flex-wrap gap-1">
                 {systemComponents.map((c) => (
@@ -289,13 +289,13 @@ export default function ControlDetailPage({
         {/* Card 5: Risks */}
         <Card>
           <CardHeader>
-            <CardTitle>Risks</CardTitle>
-            <CardDescription>Linked risks and risk tier</CardDescription>
+            <CardTitle>風險</CardTitle>
+            <CardDescription>關聯風險與風險層級</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Linked Risks
+                關聯風險
               </label>
               <div className="mt-1 flex flex-wrap gap-1">
                 {linkedRisks.length > 0 ? (
@@ -305,13 +305,13 @@ export default function ControlDetailPage({
                     </Badge>
                   ))
                 ) : (
-                  <span className="text-sm text-muted-foreground">None</span>
+                  <span className="text-sm text-muted-foreground">無</span>
                 )}
               </div>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Risk Tier
+                風險層級
               </label>
               <div className="mt-1">
                 <RiskTierBadge tier={control.riskTier} />
@@ -323,24 +323,24 @@ export default function ControlDetailPage({
         {/* Card 6: Review */}
         <Card>
           <CardHeader>
-            <CardTitle>Review</CardTitle>
-            <CardDescription>Last review and approval status</CardDescription>
+            <CardTitle>審閱</CardTitle>
+            <CardDescription>最近一次審閱與核准狀態</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Last Reviewed At
+                最後審閱時間
               </label>
               <p className="text-sm">
-                {control.lastReviewedAt ?? "Not yet reviewed"}
+                {control.lastReviewedAt ?? "尚未審閱"}
               </p>
             </div>
             <div>
               <label className="text-xs font-medium uppercase text-muted-foreground">
-                Approved By
+                核准人
               </label>
               <p className="text-sm">
-                {control.approvedBy ?? "Not yet approved"}
+                {control.approvedBy ?? "尚未核准"}
               </p>
             </div>
           </CardContent>

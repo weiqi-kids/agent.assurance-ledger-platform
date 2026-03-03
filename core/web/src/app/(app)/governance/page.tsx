@@ -21,37 +21,37 @@ interface ControlRecord {
 }
 
 const DOMAIN_INFO: Record<string, { name: string; description: string }> = {
-  AC: { name: "Access Control", description: "Authentication, RBAC, and access reviews" },
-  CM: { name: "Change Management", description: "Code review, CI/CD, and release governance" },
-  PI: { name: "Processing Integrity", description: "Hash chains, sampling, and evidence integrity" },
-  CF: { name: "Configuration", description: "Environment, migrations, and infrastructure config" },
-  IR: { name: "Incident Response", description: "Conflict handling, failures, and complaints" },
-  MN: { name: "Monitoring", description: "Verification, KRI, reviews, and subservice oversight" },
+  AC: { name: "存取控制", description: "身分驗證、角色存取控制及存取審查" },
+  CM: { name: "變更管理", description: "程式碼審查、CI/CD 及發布治理" },
+  PI: { name: "處理完整性", description: "雜湊鏈、抽樣及證據完整性" },
+  CF: { name: "組態管理", description: "環境、遷移及基礎設施組態" },
+  IR: { name: "事件回應", description: "衝突處理、故障及客訴" },
+  MN: { name: "監控", description: "驗證、KRI、覆核及次服務監督" },
 };
 
 const QUICK_LINKS = [
   {
     href: "/governance/controls",
     icon: Shield,
-    title: "Controls",
+    title: "控制點",
     description: "檢視 6 大領域的全部 30 個控制點",
   },
   {
     href: "/governance/roles",
     icon: Users,
-    title: "Roles",
+    title: "角色",
     description: "6 個角色及其權限矩陣",
   },
   {
     href: "/governance/raci",
     icon: Table2,
-    title: "RACI Matrix",
+    title: "RACI 矩陣",
     description: "所有控制點的責任分工",
   },
   {
     href: "/governance/framework-mapping",
     icon: Network,
-    title: "Framework Mapping",
+    title: "框架映射",
     description: "SOC1 / ISQM1 / ISO 9001 交叉對照",
   },
 ];
@@ -130,7 +130,7 @@ export default function GovernancePage() {
 
       {/* Domain Cards */}
       <div>
-        <h2 className="mb-4 text-lg font-semibold">Control Domains</h2>
+        <h2 className="mb-4 text-lg font-semibold">控制領域</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {domains.map((code) => {
             const info = DOMAIN_INFO[code];
@@ -163,25 +163,25 @@ export default function GovernancePage() {
                       <Shield className="h-4 w-4 text-muted-foreground" />
                       <span className="text-sm text-muted-foreground">
                         {loading
-                          ? "Loading..."
-                          : `${domainControls.length} controls`}
+                          ? "載入中..."
+                          : `${domainControls.length} 個控制點`}
                       </span>
                     </div>
                     {!loading && domainControls.length > 0 && (
                       <div className="mt-2 flex gap-2">
                         {highCount > 0 && (
                           <Badge variant="destructive" className="text-xs">
-                            {highCount} High
+                            {highCount} 高
                           </Badge>
                         )}
                         {mediumCount > 0 && (
                           <Badge variant="default" className="text-xs">
-                            {mediumCount} Medium
+                            {mediumCount} 中
                           </Badge>
                         )}
                         {lowCount > 0 && (
                           <Badge variant="secondary" className="text-xs">
-                            {lowCount} Low
+                            {lowCount} 低
                           </Badge>
                         )}
                       </div>
@@ -196,7 +196,7 @@ export default function GovernancePage() {
 
       {/* Quick Links */}
       <div>
-        <h2 className="mb-4 text-lg font-semibold">Quick Links</h2>
+        <h2 className="mb-4 text-lg font-semibold">快速連結</h2>
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {QUICK_LINKS.map((link) => (
             <Link key={link.href} href={link.href}>

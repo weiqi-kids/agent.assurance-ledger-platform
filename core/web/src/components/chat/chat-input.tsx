@@ -164,7 +164,7 @@ export function ChatInput({ onSend, isLoading, providers }: ChatInputProps) {
           value={value}
           onChange={handleChange}
           onKeyDown={handleKeyDown}
-          placeholder="Type a message... Use @ to mention an AI provider"
+          placeholder="輸入訊息... 使用 @ 提及 AI 供應商"
           className="min-h-[40px] max-h-[200px] resize-none"
           rows={1}
           disabled={isLoading}

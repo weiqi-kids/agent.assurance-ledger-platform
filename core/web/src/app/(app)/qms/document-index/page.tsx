@@ -45,8 +45,21 @@ interface DocRow {
   updatedAt: string;
 }
 
-const DOC_TYPE_OPTIONS = ["all", "Policy", "SOP", "Work Instruction", "Form", "Template"];
-const STATUS_OPTIONS = ["all", "draft", "approved", "superseded", "archived"];
+const DOC_TYPE_OPTIONS: { value: string; label: string }[] = [
+  { value: "all", label: "全部" },
+  { value: "Policy", label: "政策" },
+  { value: "SOP", label: "標準作業程序" },
+  { value: "Work Instruction", label: "工作指引" },
+  { value: "Form", label: "表單" },
+  { value: "Template", label: "範本" },
+];
+const STATUS_OPTIONS: { value: string; label: string }[] = [
+  { value: "all", label: "全部" },
+  { value: "draft", label: "草稿" },
+  { value: "approved", label: "已核准" },
+  { value: "superseded", label: "已取代" },
+  { value: "archived", label: "已封存" },
+];
 
 function formatDate(dateStr: string | null): string {
   if (!dateStr) return "-";
@@ -87,7 +100,7 @@ export default function DocumentIndexPage() {
       setDocs(data.documents);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to load documents"
+        err instanceof Error ? err.message : "載入文件失敗"
       );
     } finally {
       setLoading(false);
@@ -123,7 +136,7 @@ export default function DocumentIndexPage() {
       void fetchDocs();
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to create document"
+        err instanceof Error ? err.message : "建立文件失敗"
       );
     } finally {
       setCreating(false);
@@ -133,7 +146,7 @@ export default function DocumentIndexPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Document Index</h1>
+        <h1 className="text-2xl font-bold">文件索引</h1>
         <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
           <DialogTrigger asChild>
             <Button>
@@ -143,35 +156,35 @@ export default function DocumentIndexPage() {
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
             <DialogHeader>
-              <DialogTitle>Add Document</DialogTitle>
+              <DialogTitle>新增文件</DialogTitle>
             </DialogHeader>
             <form onSubmit={handleCreate} className="space-y-4">
               <div>
-                <Label htmlFor="title">Title</Label>
+                <Label htmlFor="title">標題</Label>
                 <Input
                   id="title"
                   name="title"
                   required
-                  placeholder="Document title"
+                  placeholder="文件標題"
                 />
               </div>
               <div>
-                <Label htmlFor="documentType">Document Type</Label>
+                <Label htmlFor="documentType">文件類型</Label>
                 <select
                   id="documentType"
                   name="documentType"
                   required
                   className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-sm shadow-xs"
                 >
-                  <option value="Policy">Policy</option>
-                  <option value="SOP">SOP</option>
-                  <option value="Work Instruction">Work Instruction</option>
-                  <option value="Form">Form</option>
-                  <option value="Template">Template</option>
+                  <option value="Policy">政策</option>
+                  <option value="SOP">標準作業程序</option>
+                  <option value="Work Instruction">工作指引</option>
+                  <option value="Form">表單</option>
+                  <option value="Template">範本</option>
                 </select>
               </div>
               <div>
-                <Label htmlFor="version">Version</Label>
+                <Label htmlFor="version">版本</Label>
                 <Input
                   id="version"
                   name="version"
@@ -183,7 +196,7 @@ export default function DocumentIndexPage() {
               <DialogFooter>
                 <Button type="submit" disabled={creating}>
                   {creating && <Loader2 className="h-4 w-4 animate-spin" />}
-                  Create
+                  建立
                 </Button>
               </DialogFooter>
             </form>
@@ -194,30 +207,30 @@ export default function DocumentIndexPage() {
       {/* Filters */}
       <div className="flex flex-wrap gap-4">
         <div className="flex items-center gap-2">
-          <Label className="text-sm">Type:</Label>
+          <Label className="text-sm">類型：</Label>
           <Select value={docTypeFilter} onValueChange={setDocTypeFilter}>
             <SelectTrigger className="w-[180px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {DOC_TYPE_OPTIONS.map((t) => (
-                <SelectItem key={t} value={t}>
-                  {t}
+                <SelectItem key={t.value} value={t.value}>
+                  {t.label}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
         <div className="flex items-center gap-2">
-          <Label className="text-sm">Status:</Label>
+          <Label className="text-sm">狀態：</Label>
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[140px]">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {STATUS_OPTIONS.map((s) => (
-                <SelectItem key={s} value={s} className="capitalize">
-                  {s}
+                <SelectItem key={s.value} value={s.value}>
+                  {s.label}
                 </SelectItem>
               ))}
             </SelectContent>
@@ -227,7 +240,7 @@ export default function DocumentIndexPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Controlled Documents</CardTitle>
+          <CardTitle>受控文件</CardTitle>
         </CardHeader>
         <CardContent>
           {loading ? (
@@ -261,13 +274,13 @@ export default function DocumentIndexPage() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Document ID</TableHead>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Type</TableHead>
-                  <TableHead>Version</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Approved By</TableHead>
-                  <TableHead>Created At</TableHead>
+                  <TableHead>文件 ID</TableHead>
+                  <TableHead>標題</TableHead>
+                  <TableHead>類型</TableHead>
+                  <TableHead>版本</TableHead>
+                  <TableHead>狀態</TableHead>
+                  <TableHead>核准人</TableHead>
+                  <TableHead>建立時間</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>

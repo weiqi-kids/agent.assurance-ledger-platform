@@ -104,7 +104,7 @@ export default function CaseDetailPage({
       setCaseData(data.case);
       setEvents(data.events);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load case");
+      setError(err instanceof Error ? err.message : "載入案件失敗");
     } finally {
       setLoading(false);
     }
@@ -130,7 +130,7 @@ export default function CaseDetailPage({
     } catch (err) {
       setChainStatus("invalid");
       setChainError(
-        err instanceof Error ? err.message : "Verification failed"
+        err instanceof Error ? err.message : "驗證失敗"
       );
     }
   }
@@ -152,18 +152,18 @@ export default function CaseDetailPage({
               <ArrowLeft className="h-4 w-4" />
             </Link>
           </Button>
-          <h1 className="text-2xl font-bold">Case Not Found</h1>
+          <h1 className="text-2xl font-bold">找不到案件</h1>
         </div>
         <Card>
           <CardContent className="py-8 text-center text-destructive">
-            <p>{error ?? "Case data could not be loaded."}</p>
+            <p>{error ?? "無法載入案件資料。"}</p>
             <Button
               variant="outline"
               size="sm"
               className="mt-4"
               onClick={() => void fetchCase()}
             >
-              Retry
+              重試
             </Button>
           </CardContent>
         </Card>
@@ -231,7 +231,7 @@ export default function CaseDetailPage({
             disabled={chainStatus === "loading"}
           >
             <ShieldCheck className="h-4 w-4" />
-            Verify Chain
+            驗證雜湊鏈
           </Button>
         </div>
       </div>
@@ -239,17 +239,17 @@ export default function CaseDetailPage({
       {/* Tabs */}
       <Tabs defaultValue="overview">
         <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="documents">Documents</TabsTrigger>
-          <TabsTrigger value="ledger">Ledger</TabsTrigger>
-          <TabsTrigger value="findings">Findings</TabsTrigger>
+          <TabsTrigger value="overview">總覽</TabsTrigger>
+          <TabsTrigger value="documents">文件</TabsTrigger>
+          <TabsTrigger value="ledger">帳本</TabsTrigger>
+          <TabsTrigger value="findings">發現事項</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
         <TabsContent value="overview">
           <Card>
             <CardHeader>
-              <CardTitle>Case Details</CardTitle>
+              <CardTitle>案件詳情</CardTitle>
             </CardHeader>
             <CardContent>
               {guidanceText && (
@@ -262,7 +262,7 @@ export default function CaseDetailPage({
               <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <dt className="text-sm font-medium text-muted-foreground">
-                    Status
+                    狀態
                   </dt>
                   <dd className="mt-1">
                     <CaseStatusBadge status={caseData.status} />
@@ -270,7 +270,7 @@ export default function CaseDetailPage({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-muted-foreground">
-                    Tenant
+                    租戶
                   </dt>
                   <dd className="mt-1 font-mono text-sm">
                     {caseData.tenantId}
@@ -278,7 +278,7 @@ export default function CaseDetailPage({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-muted-foreground">
-                    Created By
+                    建立者
                   </dt>
                   <dd className="mt-1 font-mono text-sm">
                     {caseData.createdBy}
@@ -286,15 +286,15 @@ export default function CaseDetailPage({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-muted-foreground">
-                    Assigned To
+                    指派給
                   </dt>
                   <dd className="mt-1 font-mono text-sm">
-                    {caseData.assignedTo ?? "Unassigned"}
+                    {caseData.assignedTo ?? "未指派"}
                   </dd>
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-muted-foreground">
-                    Created At
+                    建立時間
                   </dt>
                   <dd className="mt-1 text-sm">
                     {formatDate(caseData.createdAt)}
@@ -302,7 +302,7 @@ export default function CaseDetailPage({
                 </div>
                 <div>
                   <dt className="text-sm font-medium text-muted-foreground">
-                    Last Updated
+                    最後更新
                   </dt>
                   <dd className="mt-1 text-sm">
                     {formatDate(caseData.updatedAt)}
@@ -311,7 +311,7 @@ export default function CaseDetailPage({
                 {caseData.description && (
                   <div className="sm:col-span-2">
                     <dt className="text-sm font-medium text-muted-foreground">
-                      Description
+                      說明
                     </dt>
                     <dd className="mt-1 text-sm">{caseData.description}</dd>
                   </div>
@@ -325,7 +325,7 @@ export default function CaseDetailPage({
         <TabsContent value="documents">
           <Card>
             <CardHeader>
-              <CardTitle>Documents</CardTitle>
+              <CardTitle>文件</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
@@ -343,7 +343,7 @@ export default function CaseDetailPage({
         <TabsContent value="ledger">
           <Card>
             <CardHeader>
-              <CardTitle>Event Ledger</CardTitle>
+              <CardTitle>事件帳本</CardTitle>
             </CardHeader>
             <CardContent>
               <EventTimeline events={events} />
@@ -355,7 +355,7 @@ export default function CaseDetailPage({
         <TabsContent value="findings">
           <Card>
             <CardHeader>
-              <CardTitle>Findings</CardTitle>
+              <CardTitle>發現事項</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">

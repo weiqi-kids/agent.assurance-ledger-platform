@@ -8,7 +8,14 @@ const variantMap: Record<RiskTier, "destructive" | "default" | "secondary"> = {
   Low: "secondary",
 };
 
+const labelMap: Record<RiskTier, string> = {
+  High: "高",
+  Medium: "中",
+  Low: "低",
+};
+
 export function RiskTierBadge({ tier }: { tier: string }) {
   const variant = variantMap[tier as RiskTier] ?? "outline";
-  return <Badge variant={variant}>{tier}</Badge>;
+  const label = labelMap[tier as RiskTier] ?? tier;
+  return <Badge variant={variant}>{label}</Badge>;
 }

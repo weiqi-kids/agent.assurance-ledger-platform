@@ -11,11 +11,11 @@ export default function Error({
 }) {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h1 className="text-4xl font-bold">Error</h1>
+      <h1 className="text-4xl font-bold">錯誤</h1>
       <p className="text-muted-foreground">
-        {error.message || "Something went wrong"}
+        {error.message || "發生錯誤"}
       </p>
-      <Button onClick={reset}>Try Again</Button>
+      <Button onClick={reset}>重試</Button>
     </div>
   );
 }

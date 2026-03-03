@@ -358,7 +358,7 @@ export default function ChatPage() {
               <MessageSquare className="h-5 w-5 text-muted-foreground" />
               <h2 className="text-sm font-semibold">
                 {conversations.find((c) => c.id === activeConvId)?.title ||
-                  "Conversation"}
+                  "對話"}
               </h2>
             </div>
 
@@ -407,17 +407,17 @@ export default function ChatPage() {
                 <MessageSquare className="h-12 w-12" />
                 <div className="text-center">
                   <p className="text-lg font-medium">
-                    Select or create a conversation
+                    選擇或建立對話
                   </p>
                   <p className="mt-1 text-sm">
-                    Use @provider-name or @all-ai to mention AI providers
+                    使用 @供應商名稱 或 @all-ai 提及 AI 供應商
                   </p>
                 </div>
                 <button
                   onClick={handleCreate}
                   className="mt-2 rounded-md bg-primary px-4 py-2 text-sm text-primary-foreground hover:bg-primary/90"
                 >
-                  New Conversation
+                  新增對話
                 </button>
               </>
             )}

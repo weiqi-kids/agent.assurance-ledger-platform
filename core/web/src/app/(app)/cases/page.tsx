@@ -30,6 +30,15 @@ interface CaseRow {
 
 const STATUS_TABS = ["all", "draft", "active", "review", "delivered", "archived"];
 
+const TAB_LABELS: Record<string, string> = {
+  all: "全部",
+  draft: "草稿",
+  active: "進行中",
+  review: "審閱",
+  delivered: "已交付",
+  archived: "已封存",
+};
+
 function formatDate(dateStr: string): string {
   try {
     const date = new Date(dateStr);
@@ -62,7 +71,7 @@ export default function CasesPage() {
       const data = (await res.json()) as { cases: CaseRow[] };
       setCases(data.cases);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to load cases");
+      setError(err instanceof Error ? err.message : "載入案件失敗");
     } finally {
       setLoading(false);
     }
@@ -75,7 +84,7 @@ export default function CasesPage() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Cases</h1>
+        <h1 className="text-2xl font-bold">案件</h1>
         <Button asChild>
           <Link href="/cases/new">
             <Plus className="h-4 w-4" />
@@ -86,7 +95,7 @@ export default function CasesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Case Management</CardTitle>
+          <CardTitle>案件管理</CardTitle>
         </CardHeader>
         <CardContent>
           <Tabs
@@ -95,8 +104,8 @@ export default function CasesPage() {
           >
             <TabsList>
               {STATUS_TABS.map((tab) => (
-                <TabsTrigger key={tab} value={tab} className="capitalize">
-                  {tab}
+                <TabsTrigger key={tab} value={tab}>
+                  {TAB_LABELS[tab] ?? tab}
                 </TabsTrigger>
               ))}
             </TabsList>
@@ -116,7 +125,7 @@ export default function CasesPage() {
                       className="mt-4"
                       onClick={() => void fetchCases(activeTab)}
                     >
-                      Retry
+                      重試
                     </Button>
                   </div>
                 ) : cases.length === 0 ? (
@@ -134,10 +143,10 @@ export default function CasesPage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Title</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Created By</TableHead>
-                        <TableHead>Created At</TableHead>
+                        <TableHead>標題</TableHead>
+                        <TableHead>狀態</TableHead>
+                        <TableHead>建立者</TableHead>
+                        <TableHead>建立時間</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>

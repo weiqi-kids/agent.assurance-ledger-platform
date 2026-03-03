@@ -5,13 +5,13 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 const NAV_ITEMS = [
-  { href: "/governance", label: "Overview", exact: true },
-  { href: "/governance/controls", label: "Controls", exact: false },
-  { href: "/governance/roles", label: "Roles", exact: false },
+  { href: "/governance", label: "總覽", exact: true },
+  { href: "/governance/controls", label: "控制點", exact: false },
+  { href: "/governance/roles", label: "角色", exact: false },
   { href: "/governance/raci", label: "RACI", exact: false },
   {
     href: "/governance/framework-mapping",
-    label: "Framework Mapping",
+    label: "框架映射",
     exact: false,
   },
 ];
