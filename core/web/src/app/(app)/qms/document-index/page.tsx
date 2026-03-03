@@ -138,7 +138,7 @@ export default function DocumentIndexPage() {
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4" />
-              Add Document
+              新增文件
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
@@ -249,10 +249,13 @@ export default function DocumentIndexPage() {
           ) : docs.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <FileText className="mb-4 h-12 w-12" />
-              <p className="text-lg font-medium">No documents found</p>
+              <p className="text-lg font-medium">尚無文件</p>
               <p className="text-sm">
-                Documents will appear here once created.
+                建立文件後將顯示於此。
               </p>
+              <Button variant="outline" size="sm" className="mt-3" onClick={() => setDialogOpen(true)}>
+                新增文件
+              </Button>
             </div>
           ) : (
             <Table>

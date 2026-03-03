@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import { useEffect, useState, useCallback, use } from "react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -170,6 +171,37 @@ export default function CaseDetailPage({
     );
   }
 
+  const statusStyles: Record<string, string> = {
+    draft: "border-blue-500/30 bg-blue-500/5",
+    active: "border-green-500/30 bg-green-500/5",
+    review: "border-yellow-500/30 bg-yellow-500/5",
+    delivered: "border-primary/30 bg-primary/5",
+    archived: "border-muted bg-muted/50",
+  };
+
+  const guidanceMap: Record<string, React.ReactNode> = {
+    draft:
+      "案件為草稿狀態。準備好後，將狀態改為進行中以開始審計。",
+    active: (
+      <>
+        案件進行中。請執行抽樣、附加文件並記錄發現事項。{" "}
+        <Link href="/audit" className="text-primary hover:underline">
+          前往審計
+        </Link>
+        。
+      </>
+    ),
+    review: "案件審閱中。等待核准或退回修改。",
+    delivered:
+      "案件已交付。完成後可進行封存。",
+    archived: "案件已封存。所有記錄保持不可變。",
+  };
+
+  const currentStatusStyle =
+    statusStyles[caseData.status] ?? "border-muted bg-muted/50";
+  const guidanceText =
+    guidanceMap[caseData.status] ?? null;
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -220,6 +252,13 @@ export default function CaseDetailPage({
               <CardTitle>Case Details</CardTitle>
             </CardHeader>
             <CardContent>
+              {guidanceText && (
+                <div
+                  className={`mb-4 rounded-lg border p-3 text-sm ${currentStatusStyle}`}
+                >
+                  {guidanceText}
+                </div>
+              )}
               <dl className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <dt className="text-sm font-medium text-muted-foreground">
@@ -291,9 +330,9 @@ export default function CaseDetailPage({
             <CardContent>
               <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
                 <FileText className="mb-4 h-12 w-12" />
-                <p className="text-lg font-medium">No documents yet</p>
+                <p className="text-lg font-medium">尚無文件</p>
                 <p className="text-sm">
-                  Documents will appear here when attached to the case.
+                  附加至案件的文件將顯示於此。
                 </p>
               </div>
             </CardContent>
@@ -321,9 +360,15 @@ export default function CaseDetailPage({
             <CardContent>
               <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
                 <AlertTriangle className="mb-4 h-12 w-12" />
-                <p className="text-lg font-medium">No findings yet</p>
+                <p className="text-lg font-medium">尚無發現事項</p>
                 <p className="text-sm">
-                  Findings will appear here when linked to the case.
+                  <Link
+                    href="/audit/findings"
+                    className="text-primary hover:underline"
+                  >
+                    前往審計 → 發現事項
+                  </Link>{" "}
+                  記錄並關聯發現事項。
                 </p>
               </div>
             </CardContent>

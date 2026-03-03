@@ -36,7 +36,6 @@ export default function LineProvider<P extends LineProfile>(
     },
     token: "https://api.line.me/oauth2/v2.1/token",
     userinfo: "https://api.line.me/v2/profile",
-    idToken: false,
     profile(profile) {
       return {
         id: profile.userId,

@@ -22,7 +22,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Plus } from "lucide-react";
+import { FileSearch, Plus } from "lucide-react";
 
 interface SampleRow {
   id: string;
@@ -207,11 +207,15 @@ export default function SamplesPage() {
                 ))
               ) : samples.length === 0 ? (
                 <TableRow>
-                  <TableCell
-                    colSpan={6}
-                    className="text-center text-muted-foreground"
-                  >
-                    No sampling sessions yet.
+                  <TableCell colSpan={6} className="h-32">
+                    <div className="flex flex-col items-center justify-center text-center text-muted-foreground">
+                      <FileSearch className="mb-3 h-10 w-10" />
+                      <p className="text-sm font-medium">尚無抽樣記錄</p>
+                      <p className="mt-1 text-xs">產生第一個樣本，開始測試控制點。</p>
+                      <Button variant="outline" size="sm" className="mt-3" onClick={() => setDialogOpen(true)}>
+                        產生新樣本
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : (

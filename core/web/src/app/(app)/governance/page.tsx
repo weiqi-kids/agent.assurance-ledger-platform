@@ -11,6 +11,8 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Shield, Users, Table2, Network } from "lucide-react";
+import { WorkflowSteps } from "@/components/workflow-steps";
+import type { WorkflowStep } from "@/components/workflow-steps";
 
 interface ControlRecord {
   controlId: string;
@@ -32,25 +34,25 @@ const QUICK_LINKS = [
     href: "/governance/controls",
     icon: Shield,
     title: "Controls",
-    description: "View all 30 controls across 6 domains",
+    description: "檢視 6 大領域的全部 30 個控制點",
   },
   {
     href: "/governance/roles",
     icon: Users,
     title: "Roles",
-    description: "6 roles with permission matrices",
+    description: "6 個角色及其權限矩陣",
   },
   {
     href: "/governance/raci",
     icon: Table2,
     title: "RACI Matrix",
-    description: "Responsibility assignments for all controls",
+    description: "所有控制點的責任分工",
   },
   {
     href: "/governance/framework-mapping",
     icon: Network,
     title: "Framework Mapping",
-    description: "SOC1 / ISQM1 / ISO 9001 cross-reference",
+    description: "SOC1 / ISQM1 / ISO 9001 交叉對照",
   },
 ];
 
@@ -78,9 +80,54 @@ export default function GovernancePage() {
   }, []);
 
   const domains = Object.keys(DOMAIN_INFO);
+  const totalControls = Object.values(controlsByDomain).reduce(
+    (sum, arr) => sum + arr.length,
+    0
+  );
+
+  const workflowSteps: WorkflowStep[] = [
+    {
+      number: 1,
+      title: "檢視控制點清單",
+      description: "檢視 6 大領域的 30 個控制點",
+      href: "/governance/controls",
+      status: totalControls > 0 ? "done" : "current",
+    },
+    {
+      number: 2,
+      title: "框架映射",
+      description: "SOC1 / ISQM1 / ISO 9001 交叉對照",
+      href: "/governance/framework-mapping",
+      status: "current",
+    },
+    {
+      number: 3,
+      title: "RACI 責任矩陣",
+      description: "每個控制點的責任分工",
+      href: "/governance/raci",
+      status: "current",
+    },
+    {
+      number: 4,
+      title: "角色權限",
+      description: "檢視角色存取權限矩陣",
+      href: "/governance/roles",
+      status: "current",
+    },
+  ];
 
   return (
     <div className="space-y-8">
+      <div>
+        <h1 className="text-2xl font-bold">治理</h1>
+        <p className="mt-1 text-muted-foreground">
+          管理所有審計領域的控制點、職責分工及框架合規狀況。
+        </p>
+      </div>
+
+      {/* Workflow Steps */}
+      <WorkflowSteps steps={workflowSteps} />
+
       {/* Domain Cards */}
       <div>
         <h2 className="mb-4 text-lg font-semibold">Control Domains</h2>

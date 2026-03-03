@@ -15,6 +15,8 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { SeverityBadge } from "@/components/audit/severity-badge";
 import { FindingStatusBadge } from "@/components/audit/finding-status-badge";
+import { WorkflowSteps } from "@/components/workflow-steps";
+import type { WorkflowStep } from "@/components/workflow-steps";
 import {
   ClipboardCheck,
   FileSearch,
@@ -147,16 +149,62 @@ export default function AuditPage() {
         </Card>
       </div>
 
+      {/* Workflow Steps */}
+      {!loading && (() => {
+        const workflowSteps: WorkflowStep[] = [
+          {
+            number: 1,
+            title: "執行抽樣",
+            description: "選取控制點測試樣本",
+            href: "/audit/samples",
+            status: samples.length > 0 ? "done" : "current",
+          },
+          {
+            number: 2,
+            title: "記錄發現事項",
+            description: "記錄偏差與控制缺失",
+            href: "/audit/findings",
+            status:
+              findings.length > 0
+                ? "done"
+                : samples.length > 0
+                  ? "current"
+                  : "pending",
+          },
+          {
+            number: 3,
+            title: "產生證據包",
+            description: "建立確定性證據封存",
+            href: "/audit/evidence-packs",
+            status:
+              packs.length > 0
+                ? "done"
+                : findings.length > 0
+                  ? "current"
+                  : "pending",
+          },
+        ];
+        return <WorkflowSteps steps={workflowSteps} />;
+      })()}
+
       {/* Recent Findings Table */}
       <Card>
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-base">Recent Findings</CardTitle>
-          <Button variant="ghost" size="sm" asChild>
-            <Link href="/audit/findings">
-              View All
-              <ArrowRight className="ml-1 h-4 w-4" />
-            </Link>
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button variant="outline" size="sm" asChild>
+              <Link href="/audit/findings/new">
+                <Plus className="mr-1 h-4 w-4" />
+                新增發現
+              </Link>
+            </Button>
+            <Button variant="ghost" size="sm" asChild>
+              <Link href="/audit/findings">
+                View All
+                <ArrowRight className="ml-1 h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
         </CardHeader>
         <CardContent>
           <Table>
@@ -196,7 +244,7 @@ export default function AuditPage() {
                     colSpan={5}
                     className="text-center text-muted-foreground"
                   >
-                    No findings recorded yet.
+                    尚無發現事項。
                   </TableCell>
                 </TableRow>
               ) : (

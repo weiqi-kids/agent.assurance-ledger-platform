@@ -79,7 +79,7 @@ export default function CasesPage() {
         <Button asChild>
           <Link href="/cases/new">
             <Plus className="h-4 w-4" />
-            Create Case
+            建立案件
           </Link>
         </Button>
       </div>
@@ -122,10 +122,13 @@ export default function CasesPage() {
                 ) : cases.length === 0 ? (
                   <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
                     <Briefcase className="mb-4 h-12 w-12" />
-                    <p className="text-lg font-medium">No cases yet</p>
+                    <p className="text-lg font-medium">尚無案件</p>
                     <p className="text-sm">
-                      Cases will appear here once created.
+                      建立案件後將顯示於此。
                     </p>
+                    <Button asChild className="mt-4">
+                      <Link href="/cases/new">建立案件</Link>
+                    </Button>
                   </div>
                 ) : (
                   <Table>

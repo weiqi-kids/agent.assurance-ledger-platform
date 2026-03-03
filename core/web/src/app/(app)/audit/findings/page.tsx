@@ -11,6 +11,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
@@ -18,9 +22,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Skeleton } from "@/components/ui/skeleton";
 import { SeverityBadge } from "@/components/audit/severity-badge";
 import { FindingStatusBadge } from "@/components/audit/finding-status-badge";
+import { AlertTriangle, Plus } from "lucide-react";
 
 interface FindingRow {
   findingId: string;
@@ -39,6 +53,17 @@ export default function FindingsPage() {
   const [loading, setLoading] = useState(true);
   const fetchIdRef = useRef(0);
 
+  // Create dialog state
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState<string | null>(null);
+
+  // Form fields
+  const [formControlId, setFormControlId] = useState("");
+  const [formSeverity, setFormSeverity] = useState("medium");
+  const [formDetectionMethod, setFormDetectionMethod] = useState("");
+  const [formDescription, setFormDescription] = useState("");
+
   const severity = searchParams.get("severity") ?? "all";
   const status = searchParams.get("status") ?? "all";
 
@@ -55,7 +80,7 @@ export default function FindingsPage() {
     [searchParams, router]
   );
 
-  useEffect(() => {
+  const fetchFindings = useCallback(() => {
     const fetchId = ++fetchIdRef.current;
     const params = new URLSearchParams();
     if (severity !== "all") params.set("severity", severity);
@@ -77,9 +102,121 @@ export default function FindingsPage() {
       });
   }, [severity, status]);
 
+  useEffect(() => {
+    fetchFindings();
+  }, [fetchFindings]);
+
+  async function handleCreate(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    setCreating(true);
+    setCreateError(null);
+    try {
+      const res = await fetch("/api/audit/findings", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          controlId: formControlId || undefined,
+          severity: formSeverity,
+          detectionMethod: formDetectionMethod,
+          description: formDescription,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = (await res.json()) as { error?: string };
+        throw new Error(data.error ?? `HTTP ${res.status}`);
+      }
+
+      setIsDialogOpen(false);
+      setFormControlId("");
+      setFormSeverity("medium");
+      setFormDetectionMethod("");
+      setFormDescription("");
+      setLoading(true);
+      fetchFindings();
+    } catch (err) {
+      setCreateError(
+        err instanceof Error ? err.message : "Failed to create finding"
+      );
+    } finally {
+      setCreating(false);
+    }
+  }
+
   return (
     <div className="space-y-4">
-      <h1 className="text-2xl font-bold">Findings</h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Findings</h1>
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button size="sm">
+              <Plus className="mr-1 h-4 w-4" />
+              新增發現
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-lg">
+            <DialogHeader>
+              <DialogTitle>新增發現</DialogTitle>
+              <DialogDescription>
+                記錄一筆新的審計發現事項，系統將自動指派唯一發現 ID。
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handleCreate} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="controlId">控制點 ID（選填）</Label>
+                <Input
+                  id="controlId"
+                  value={formControlId}
+                  onChange={(e) => setFormControlId(e.target.value)}
+                  placeholder="e.g. AC-001"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="severity">嚴重程度</Label>
+                <Select value={formSeverity} onValueChange={setFormSeverity}>
+                  <SelectTrigger id="severity">
+                    <SelectValue placeholder="選擇嚴重程度" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="critical">Critical</SelectItem>
+                    <SelectItem value="high">High</SelectItem>
+                    <SelectItem value="medium">Medium</SelectItem>
+                    <SelectItem value="low">Low</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="detectionMethod">偵測方式</Label>
+                <Input
+                  id="detectionMethod"
+                  value={formDetectionMethod}
+                  onChange={(e) => setFormDetectionMethod(e.target.value)}
+                  placeholder="例：抽樣、查驗、訪談"
+                  required
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="description">說明</Label>
+                <Textarea
+                  id="description"
+                  value={formDescription}
+                  onChange={(e) => setFormDescription(e.target.value)}
+                  placeholder="詳細描述發現事項…"
+                  required
+                />
+              </div>
+              {createError && (
+                <p className="text-sm text-destructive">{createError}</p>
+              )}
+              <DialogFooter>
+                <Button type="submit" disabled={creating}>
+                  {creating ? "建立中…" : "建立發現事項"}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+      </div>
 
       <div className="flex flex-wrap items-center gap-4">
         <Select
@@ -157,11 +294,22 @@ export default function FindingsPage() {
               ))
             ) : findings.length === 0 ? (
               <TableRow>
-                <TableCell
-                  colSpan={6}
-                  className="text-center text-muted-foreground"
-                >
-                  No findings match the selected filters.
+                <TableCell colSpan={6} className="h-40">
+                  <div className="flex flex-col items-center justify-center text-center text-muted-foreground">
+                    <AlertTriangle className="mb-3 h-10 w-10" />
+                    <p className="text-sm font-medium">沒有符合篩選條件的發現事項</p>
+                    <p className="mt-1 text-xs">
+                      請調整上方篩選條件，或建立第一筆發現事項，開始追蹤審計結果。
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="mt-3"
+                      onClick={() => setIsDialogOpen(true)}
+                    >
+                      新增發現
+                    </Button>
+                  </div>
                 </TableCell>
               </TableRow>
             ) : (

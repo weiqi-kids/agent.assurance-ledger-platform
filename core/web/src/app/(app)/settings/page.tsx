@@ -4,18 +4,25 @@ import { Users, Bot, Cog } from "lucide-react";
 
 export default function SettingsPage() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold">設定</h1>
+        <p className="mt-1 text-muted-foreground">
+          設定使用者、系統選項及 AI 供應商整合。
+        </p>
+      </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <Link href="/settings/users">
         <Card className="transition-colors hover:bg-accent/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">
-              User Management
+              使用者管理
             </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Manage users, roles, and permissions.
+              管理使用者、角色與權限。
             </p>
           </CardContent>
         </Card>
@@ -24,13 +31,13 @@ export default function SettingsPage() {
         <Card className="transition-colors hover:bg-accent/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-sm font-medium">
-              System Configuration
+              系統設定
             </CardTitle>
             <Cog className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              GitHub App status, audit period, GPG keys.
+              GitHub App 狀態、審計期間、GPG 金鑰。
             </p>
           </CardContent>
         </Card>
@@ -38,16 +45,17 @@ export default function SettingsPage() {
       <Link href="/settings/ai-providers">
         <Card className="transition-colors hover:bg-accent/50">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">AI Providers</CardTitle>
+            <CardTitle className="text-sm font-medium">AI 供應商</CardTitle>
             <Bot className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <p className="text-sm text-muted-foreground">
-              Configure AI models and API connections.
+              設定 AI 模型與 API 連線。
             </p>
           </CardContent>
         </Card>
       </Link>
+      </div>
     </div>
   );
 }

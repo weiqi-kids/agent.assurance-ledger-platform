@@ -132,7 +132,7 @@ export default function ComplaintsPage() {
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4" />
-              Add Complaint
+              新增客訴
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
@@ -215,10 +215,13 @@ export default function ComplaintsPage() {
           ) : complaints.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <MessageSquareWarning className="mb-4 h-12 w-12" />
-              <p className="text-lg font-medium">No complaints found</p>
+              <p className="text-lg font-medium">尚無客訴</p>
               <p className="text-sm">
-                Complaints will appear here once filed.
+                提報客訴後將顯示於此。
               </p>
+              <Button variant="outline" size="sm" className="mt-3" onClick={() => setDialogOpen(true)}>
+                新增客訴
+              </Button>
             </div>
           ) : (
             <Table>

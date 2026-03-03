@@ -158,7 +158,7 @@ export default function RiskRegisterPage() {
           <DialogTrigger asChild>
             <Button>
               <Plus className="h-4 w-4" />
-              Add Risk
+              新增風險
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-lg">
@@ -317,10 +317,13 @@ export default function RiskRegisterPage() {
           ) : risks.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <AlertTriangle className="mb-4 h-12 w-12" />
-              <p className="text-lg font-medium">No risks found</p>
+              <p className="text-lg font-medium">尚無風險項目</p>
               <p className="text-sm">
-                Risk entries will appear here once created.
+                建立風險項目後將顯示於此。
               </p>
+              <Button variant="outline" size="sm" className="mt-3" onClick={() => setDialogOpen(true)}>
+                新增風險
+              </Button>
             </div>
           ) : (
             <Table>

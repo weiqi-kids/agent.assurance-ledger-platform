@@ -113,7 +113,7 @@ export default function EvidencePacksPage() {
           <DialogTrigger asChild>
             <Button size="sm">
               <Plus className="mr-1 h-4 w-4" />
-              Generate Pack
+              產生證據包
             </Button>
           </DialogTrigger>
           <DialogContent>
@@ -181,11 +181,15 @@ export default function EvidencePacksPage() {
                 ))
               ) : packs.length === 0 ? (
                 <TableRow>
-                  <TableCell
-                    colSpan={6}
-                    className="text-center text-muted-foreground"
-                  >
-                    No evidence packs generated yet.
+                  <TableCell colSpan={6} className="h-32">
+                    <div className="flex flex-col items-center justify-center text-center text-muted-foreground">
+                      <PackageCheck className="mb-3 h-10 w-10" />
+                      <p className="text-sm font-medium">尚無證據包</p>
+                      <p className="mt-1 text-xs">完成審計後產生第一個證據包。</p>
+                      <Button variant="outline" size="sm" className="mt-3" onClick={() => setDialogOpen(true)}>
+                        產生證據包
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ) : (

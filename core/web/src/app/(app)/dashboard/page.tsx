@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Briefcase,
@@ -276,6 +278,62 @@ export default function DashboardPage() {
           )}
         </StatCard>
       </div>
+
+      {/* Next Steps */}
+      {stats && stats.cases.total === 0 && (
+        <Card>
+          <CardContent className="flex items-center gap-4 pt-6">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <Briefcase className="h-5 w-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <p className="font-medium">開始使用</p>
+              <p className="text-sm text-muted-foreground">
+                建立第一個案件，開始審計流程。
+              </p>
+            </div>
+            <Button asChild size="sm">
+              <Link href="/cases/new">建立案件</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+      {stats && stats.cases.total > 0 && stats.findings.totalOpen === 0 && stats.evidencePacks.total === 0 && (
+        <Card>
+          <CardContent className="flex items-center gap-4 pt-6">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <AlertTriangle className="h-5 w-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <p className="font-medium">記錄審計發現</p>
+              <p className="text-sm text-muted-foreground">
+                記錄測試中發現的偏差與控制缺失。
+              </p>
+            </div>
+            <Button asChild size="sm">
+              <Link href="/audit/findings">Go to Findings</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
+      {stats && stats.cases.total > 0 && stats.findings.totalOpen > 0 && stats.evidencePacks.total === 0 && (
+        <Card>
+          <CardContent className="flex items-center gap-4 pt-6">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary/10">
+              <ClipboardCheck className="h-5 w-5 text-primary" />
+            </div>
+            <div className="flex-1">
+              <p className="font-medium">產生證據包</p>
+              <p className="text-sm text-muted-foreground">
+                為審計期間建立確定性證據封存，完成審計週期。
+              </p>
+            </div>
+            <Button asChild size="sm">
+              <Link href="/audit/evidence-packs">Go to Evidence Packs</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Control Status Heatmap */}
       <Card>
